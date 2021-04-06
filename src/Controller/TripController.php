@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class TripController
  * @package App\Controller
- * @Route(path="trip/", name="trip_")
+ * @Route(path="sortie/", name="trip_")
  */
 class TripController extends AbstractController
 {
