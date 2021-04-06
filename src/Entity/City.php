@@ -23,7 +23,7 @@ class City
     private $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", precision=5)
      */
     private $postalCode;
 
