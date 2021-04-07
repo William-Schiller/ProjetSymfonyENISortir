@@ -65,6 +65,12 @@ class Trip
      */
     private $adress;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Participant::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $promoter;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -181,6 +187,18 @@ class Trip
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getPromoter(): ?Participant
+    {
+        return $this->promoter;
+    }
+
+    public function setPromoter(?Participant $promoter): self
+    {
+        $this->promoter = $promoter;
+
+        return $this;
     }
 
 
