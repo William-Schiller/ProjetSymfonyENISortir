@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TripRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TripRepository::class)
@@ -23,6 +24,9 @@ class Trip
     private $name;
 
     /**
+     * @Assert\Range(
+     *     min="now +47 hours"
+     * )
      * @ORM\Column(type="datetime")
      */
     private $dateStart;
@@ -33,11 +37,18 @@ class Trip
     private $duration;
 
     /**
+     * @Assert\Range(
+     *     min="now +23 hours"
+     * )
      * @ORM\Column(type="datetime")
      */
     private $dateLimitInscription;
 
     /**
+     * @Assert\Range(
+     *     min=2,
+     *     minMessage="La sortie doit comprendre au moins 2 participant"
+     * )
      * @ORM\Column(type="integer", nullable=true)
      */
     private $nbMaxRegistration;
