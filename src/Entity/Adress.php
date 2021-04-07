@@ -37,6 +37,12 @@ class Adress
      */
     private $longitude;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=City::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $city;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +92,18 @@ class Adress
     public function setLongitude(float $longitude): self
     {
         $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

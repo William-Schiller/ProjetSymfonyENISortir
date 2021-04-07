@@ -47,6 +47,24 @@ class Trip
      */
     private $informationTrip;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Campus::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $campus;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Status::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $status;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Adress::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $adress;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +138,42 @@ class Trip
     public function setInformationTrip(?string $informationTrip): self
     {
         $this->informationTrip = $informationTrip;
+
+        return $this;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): self
+    {
+        $this->campus = $campus;
+
+        return $this;
+    }
+
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?Status $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getAdress(): ?Adress
+    {
+        return $this->adress;
+    }
+
+    public function setAdress(?Adress $adress): self
+    {
+        $this->adress = $adress;
 
         return $this;
     }
