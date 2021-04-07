@@ -1,20 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TripController!{% endblock %}
+{% block title %} {% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>Listes des sorties</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <a href="{{ url('trip_list') }}">Liste des sortie</a>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/willi/PhpstormProjects/ProjectsSymfony/ProjetSymfonySortirDOTCom/Sortir.com/src/Controller/TripController.php'|file_link(0) }}">src/Controller/TripController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/willi/PhpstormProjects/ProjectsSymfony/ProjetSymfonySortirDOTCom/Sortir.com/templates/trip/index.html.twig'|file_link(0) }}">templates/trip/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="container-fluid">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">NOM DE LA SORTIE</th>
+                <th scope="col">DATE DE LA SORTIE</th>
+                <th scope="col">CLOTURES</th>
+                <th scope="col">INSCRITS/PLACES</th>
+                <th scope="col">ETAT</th>
+                <th scope="col">INSCRIT</th>
+                <th scope="col">ORGANISATEUR</th>
+                <th scope="col">ACTIONS</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for trip in trips %}
+                <td>{{ trip.name }}</td>
+                <td>{{ trip.dateStart }}</td>
+                <td>{{ trip.limitInscription }}</td>
+                <td>{{ trip.nbMaxRegistration }}</td>
+                <td>{{ trip.statut }}</td>
+                <td>{{ trip.promoter }}</td>
+                <td>"lambada"</td>
+
+
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
