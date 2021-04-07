@@ -12,10 +12,6 @@
             <thead>
             <tr>
                 <th scope="col">NOM</th>
-                <th scope="col">CAMPUS</th>
-                <th scope="col">DATE</th>
-                <th scope="col">FIN INSCRIPTION</th>
-                <th scope="col">NB PARTICIPANTS</th>
                 <th scope="col">ETAT</th>
                 <th scope="col">ACTION</th>
             </tr>
@@ -23,15 +19,11 @@
             <tbody>
             {% for trip in trips %}
                 <tr>
-                    <td>{{ trip.name }}</td>
-                    <td>{{ trip.campus.name }}</td>
-                    <td>{{ trip.dateStart|date('d/m/Y H:m') }}</td>
-                    <td>{{ trip.dateLimitInscription|date('d/m/Y H:m') }}</td>
-                    <td>- {# Nb de participants #}</td>
+                    <td><a href="{{ path('tripManage_detail', {'id':trip.id}) }}">{{ trip.name }}</a></td>
                     <td>{{ trip.status.name }}</td>
                     <td>
                         {% if trip.status.id == 1 %}
-                            <a href=""></a>
+                            <a href="">coucou hiboux</a>
                         {% else %}
                         -- Action --
                         {% endif %}

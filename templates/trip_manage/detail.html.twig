@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des sorties{% endblock %}
+
+{% block body %}
+    <h1>Page de Modification des sorties - duree {{ trip.duration }}</h1>
+
+
+    {% if trip.promoter == app.user %}
+    <div class="container-fluid">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">NOM</th>
+                <th scope="col">CAMPUS</th>
+                <th scope="col">DATE</th>
+                <th scope="col">FIN INSCRIPTION</th>
+                <th scope="col">NB PARTICIPANTS</th>
+                <th scope="col">ETAT</th>
+                <th scope="col">ACTION</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ trip.name }}</td>
+                    <td>{{ trip.campus.name }}</td>
+                    <td>{{ trip.dateStart|date('d/m/Y H:m') }}</td>
+                    <td>{{ trip.dateLimitInscription|date('d/m/Y H:m') }}</td>
+                    <td>- {# Nb de participants #}</td>
+                    <td>{{ trip.status.name }}</td>
+                    <td>
+                        {% if trip.status.id == 1 %}
+                            <a href="">Coucou hiboux</a>
+                        {% else %}
+                            -- Action --
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    {{ form_start(tripForm) }}<button type="submit">Modifier</button>{{ form_end(tripForm) }}
+
+
+{% endblock %}

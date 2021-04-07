@@ -38,7 +38,7 @@ class Trip
 
     /**
      * @Assert\Range(
-     *     min="now +23 hours"
+     *     min="now +23 hours",
      * )
      * @ORM\Column(type="datetime")
      */

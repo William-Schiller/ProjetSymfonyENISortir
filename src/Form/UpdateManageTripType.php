@@ -8,18 +8,15 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CreateTripType extends AbstractType
+class UpdateManageTripType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $dateNow = new \DateTime('now');
-
         $builder
             ->add('name')
             ->add('dateStart', DateTimeType::class, [
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
-                'data' => new \DateTime('now +48 hours')
             ])
             ->add('duration')
             ->add('dateLimitInscription', DateTimeType::class, [
