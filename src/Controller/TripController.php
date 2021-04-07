@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TripController extends AbstractController
 {
     /**
+     *
      * @Route("", name="list", methods={"GET/POST"})
      */
     public function list(EntityManagerInterface $entityManager)
