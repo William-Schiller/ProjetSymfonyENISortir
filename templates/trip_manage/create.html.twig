@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des sorties{% endblock %}
+
+{% block body %}
+<h1>Page de creation des sorties</h1>
+
+    <a href="{{ url('tripManage_index') }}">retour</a>
+
+    <div class="container text-center p-4 form-group">
+        <h1>Créer une sortie :</h1>
+        {{ form_start(tripForm) }}
+        <div class="row my-4">
+            <div class="col-3 offset-3">
+                {{ form_label(tripForm.name) }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(tripForm.name, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-danger">{{ form_errors(tripForm.name) }}</small>
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-3 offset-3">
+                {{ form_label(tripForm.dateStart) }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(tripForm.dateStart, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-danger">{{ form_errors(tripForm.dateStart) }}</small>
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-3 offset-3">
+                {{ form_label(tripForm.duration) }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(tripForm.duration, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-danger">{{ form_errors(tripForm.duration) }}</small>
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-3 offset-3">
+                {{ form_label(tripForm.dateLimitInscription) }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(tripForm.dateLimitInscription, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-danger">{{ form_errors(tripForm.dateLimitInscription) }}</small>
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-3 offset-3">
+                {{ form_label(tripForm.nbMaxRegistration) }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(tripForm.nbMaxRegistration, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-danger">{{ form_errors(tripForm.nbMaxRegistration) }}</small>
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-3 offset-3">
+                {{ form_label(tripForm.informationTrip) }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(tripForm.informationTrip, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-danger">{{ form_errors(tripForm.informationTrip) }}</small>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-light">Créer</button>
+        {{ form_end(tripForm) }}
+    </div>
+{% endblock %}
