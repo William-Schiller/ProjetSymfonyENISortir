@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -14,27 +14,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class TripController extends AbstractController
 {
     /**
-     * @Route("", name="list")
+     * @Route("", name="list", methods={"GET/POST"})
      */
-    public function list(): Response
+    public function list(EntityManagerInterface $entityManager)
     {
         //TODO Afficher la liste des sorties
-        return $this->render('trip/index.html.twig', [
-            'controller_name' => 'TripController',
-        ]);
+
+        //Récupération des entités dans la BDD
+        $trip = $entityManager->getRepository('trip:index');
+
+        //Lien avec le dossier trip + index.html.twig
+        return $this->render('trip/index.html.twig', ['trip' => $trip]);
     }
 
-    /**
-     * @Route(path="gestion/", name="homeManage"
-     */
-    public function homeManage(){
-        //TODO menu gestion des sorties
-    }
 
-    /**
-     * @Route(path="gestion/ajouter", name="create"
-     */
-    public function create(){
-        //TODO creation d'une sortie
-    }
 }
