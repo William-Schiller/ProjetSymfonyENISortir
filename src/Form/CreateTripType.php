@@ -18,6 +18,8 @@ class CreateTripType extends AbstractType
             ->add('dateLimitInscription')
             ->add('nbMaxRegistration')
             ->add('informationTrip')
+            ->add('campus')
+            ->add('adress')
         ;
     }
 

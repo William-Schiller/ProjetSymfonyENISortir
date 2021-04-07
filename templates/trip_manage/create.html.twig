@@ -21,6 +21,25 @@
         </div>
         <div class="row my-4">
             <div class="col-3 offset-3">
+                {{ form_label(tripForm.campus) }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(tripForm.campus, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-danger">{{ form_errors(tripForm.campus) }}</small>
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-3 offset-3">
+                {{ form_label(tripForm.adress) }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(tripForm.adress, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-danger">{{ form_errors(tripForm.adress) }}</small>
+            </div>
+        </div>
+
+        <div class="row my-4">
+            <div class="col-3 offset-3">
                 {{ form_label(tripForm.dateStart) }}
             </div>
             <div class="col-3">
