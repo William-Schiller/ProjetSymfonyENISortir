@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Participant;
 use App\Entity\Trip;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -15,14 +16,28 @@ use Doctrine\Persistence\ManagerRegistry;
 class TripRepository extends ServiceEntityRepository
 {
 
-
-
-
-
-
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Trip::class);
+    }
+
+    /**
+     * @return Trip[] Returns an array of Trip object where the promotor is the app_user
+     * and where the status of trip is updatable
+     */
+    public function findMyTripsNotInProgress(Participant $user){
+
+        return $this->createQueryBuilder('t')
+            ->innerJoin('t.status', 's')
+            ->andWhere('t.promoter = :idUser')
+            ->setParameter('idUser', $user->getId())
+            ->andWhere('s.name = :Create')
+            ->setParameter('Create', 'Create')
+            ->orWhere('s.name = :Active')
+            ->setParameter('Active', 'Active')
+            ->orderBy('t.dateStart', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     // /**

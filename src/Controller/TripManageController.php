@@ -26,15 +26,16 @@ class TripManageController extends AbstractController
      */
     public function index(TripRepository $tripRepository): Response
     {
-        $trips = $tripRepository->findBy(['promoter'=>$this->getUser()]);
+//        $trips = $tripRepository->findBy(['promoter'=>$this->getUser()]);
+        $trips = $tripRepository->findMyTripsNotInProgress($this->getUser());
 
         return $this->render('trip_manage/index.html.twig', compact('trips'));
     }
 
     /**
-     * @Route(path="detail/{id}", requirements={"id":"\d+"}, name="detail")
+     * @Route(path="detail/{id}", requirements={"id":"\d+"}, name="update")
      */
-    public function detail(Request $request, TripRepository $tripRepository, EntityManagerInterface $entityManager){
+    public function update(Request $request, TripRepository $tripRepository, EntityManagerInterface $entityManager){
         $id = $request->get('id');
 
         $trip = $tripRepository->findOneBy(['id' => $id]);

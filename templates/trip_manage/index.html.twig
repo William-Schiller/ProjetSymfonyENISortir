@@ -23,7 +23,7 @@
                     <td>{{ trip.status.name }}</td>
                     <td>
                         {% if trip.status.name == 'Create' or trip.status.name == 'Active' %}
-                            <a href="#">Modifier</a>
+                            <a href="{{ path('tripManage_update', {'id': trip.id}) }}">Modifier</a>
                         {% elseif trip.status.name == 'Create' %}
                             <a href="#">Publier</a>
                         {% else %}
