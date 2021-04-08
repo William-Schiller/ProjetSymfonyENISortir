@@ -16,8 +16,10 @@
         {% endif %}
     </p>#}
 
+    <img src="{{ asset( '/img/profilePicture/' ~app.user.pictureFileName) }}" alt="profile-pic" />
 
     {{ form_start(userForm) }}
+
     {{ form_row(userForm.pseudo, {
         label: 'Pseudo :'
     }) }}
@@ -42,9 +44,9 @@
     {{ form_row(userForm.campus, {
         label: 'Campus'
     }) }}
-  {#   {{ form_row(userForm.picture, {
+    {{ form_row(userForm.picture, {
         label: 'Ma photo :'
-    }) }}#}
+    }) }}
 
     <button type="submit" class="btn">Enregistrer</button>
     <button type="reset" class="btn">Annuler</button>
