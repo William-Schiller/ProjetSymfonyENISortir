@@ -24,10 +24,14 @@
                     <td>
                         {% if trip.status.name == 'Create' or trip.status.name == 'Active' %}
                             <a href="{{ path('tripManage_update', {'id': trip.id}) }}">Modifier</a>
-                        {% elseif trip.status.name == 'Create' %}
-                            <a href="#">Publier</a>
-                        {% else %}
-                            <a href="#">Afficher</a>
+                            {% if trip.status.name == 'Create' %}
+                                <a href="{{ path('tripManage_publish', {'id': trip.id}) }}">Publier</a>
+                                <a href="{{ path('tripManage_delete', {'id': trip.id}) }}">Supprimer</a>
+                            {% else %}
+                                <a href="#">Afficher</a>{# renvoyer methode detail lulu #}
+                                <a href="{{ path('tripManage_cancel', {'id': trip.id}) }}">Annuler</a>
+                            {% endif %}
+
                         {% endif %}
                     </td>
                 </tr>

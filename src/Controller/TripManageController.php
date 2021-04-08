@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Status;
 use App\Entity\Trip;
 use App\Form\CreateTripType;
 use App\Form\UpdateManageTripType;
@@ -90,6 +91,72 @@ class TripManageController extends AbstractController
         }
 
         return $this->render('trip_manage/create.html.twig', ['tripForm' => $form->createView()]);
+    }
+
+    /**
+     * @Route(path="publier/{id}", requirements={"id":"\d+"}, name="publish")
+     */
+    public function publish(Request $request, TripRepository $tripRepository, StatusRepository $statusRepository, EntityManagerInterface $entityManager){
+        $id = $request->get('id');
+
+        $trip = $tripRepository->findOneBy(['id' => $id]);
+
+        if(is_null($trip) || $trip->getPromoter() != $this->getUser()){
+            throw $this->createNotFoundException();
+        }
+
+        $status = $statusRepository->findOneBy(['name' => 'Active']);
+        $trip->setStatus($status);
+
+        $entityManager->persist($trip);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'La sortie a bien été publiée'); //a afficher
+
+        return $this->redirectToRoute('tripManage_index');
+    }
+
+    /**
+     * @Route(path="supprimer/{id}", requirements={"id":"\d+"}, name="delete")
+     */
+    public function delete(Request $request, TripRepository $tripRepository, EntityManagerInterface $entityManager){
+        $id = $request->get('id');
+
+        $trip = $tripRepository->findOneBy(['id' => $id]);
+
+        if(is_null($trip) || $trip->getPromoter() != $this->getUser() || $trip->getStatus()->getName() != 'Create'){
+            throw $this->createNotFoundException();
+        }
+
+        $entityManager->remove($trip);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'La sortie a bien été supprimée'); //a afficher
+
+        return $this->redirectToRoute('tripManage_index');
+    }
+
+    /**
+     * @Route(path="annuler/{id}", requirements={"id":"\d+"}, name="cancel")
+     */
+    public function cancel(Request $request, TripRepository $tripRepository, StatusRepository $statusRepository, EntityManagerInterface $entityManager){
+        $id = $request->get('id');
+
+        $trip = $tripRepository->findOneBy(['id' => $id]);
+
+        if(is_null($trip) || $trip->getPromoter() != $this->getUser() || $trip->getStatus()->getName() != 'Active'){
+            throw $this->createNotFoundException();
+        }
+
+        $status = $statusRepository->findOneBy(['name' => 'Desactivate']);
+        $trip->setStatus($status);
+
+        $entityManager->persist($trip);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'La sortie a bien été annulée'); //a afficher
+
+        return $this->redirectToRoute('tripManage_index');
     }
 
 }
