@@ -6,4 +6,32 @@
 <h1>Page de gestion des sorties</h1>
 
     <a href="{{ url('tripManage_create') }}">Creer une sortie</a>
+
+    <div class="container-fluid">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">NOM</th>
+                <th scope="col">ETAT</th>
+                <th scope="col">ACTION</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for trip in trips %}
+                <tr>
+                    <td><a href="{{ path('tripManage_detail', {'id':trip.id}) }}">{{ trip.name }}</a></td>
+                    <td>{{ trip.status.name }}</td>
+                    <td>
+                        {% if trip.status.id == 1 %}
+                            <a href="">coucou hiboux</a>
+                        {% else %}
+                        -- Action --
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 {% endblock %}
