@@ -22,6 +22,7 @@ class RegistrationController extends AbstractController
         $user = new Participant();
         $user->setActive(true);
         $user->setAdmin(false);
+        $user->setPictureFileName('');
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
