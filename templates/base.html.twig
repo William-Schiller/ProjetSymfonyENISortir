@@ -23,13 +23,14 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     </head>
 
-    <header  class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-body border-bottom shadow-sm">
+    <header  class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-body border-bottom shadow-sm">
         <p class="h5 my-0 me-md-auto fw-normal">{% block name %}{% endblock %}</p>
         <nav class="my-2 my-md-0 me-md-3">
             <a class="p-2 text-dark" href="/">Accueil</a>
             {%  if app.user %}
                 <a class="p-2 text-dark" href="{{ path('app_logout') }}">Logout</a>
                 <a class="p-2 text-dark" href="{{ url('showUser', {id: app.user.id}) }}">Mon profil</a>
+                <a class="p-2 text-dark" href="{{ path('tripManage_index') }}">Gestion Sortie</a>
             {% else %}
                 <a class="p-2 text-dark" href="{{ url('app_register') }}">Creer un compte</a>
                 <a class="p-2 text-dark" href="{{ url('app_login') }}">Se connecter</a>
@@ -40,19 +41,22 @@
         </nav>
     </header>
     <body>
-    {# Afficher des messages #}
-    {% for status, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="alert alert-{{ status }}" role="alert">
-                {{ message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+    <div class="bgBody pt-5">
+        {# Afficher des messages #}
+        {% for status, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ status }}" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
-
-    {% block body %}{% endblock %}
+        <div class="container-fluid bgContainer">
+            {% block body %}{% endblock %}
+        </div>
+    </div>
     </body>
 
     <footer>

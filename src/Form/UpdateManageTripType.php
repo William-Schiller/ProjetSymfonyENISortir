@@ -22,7 +22,6 @@ class UpdateManageTripType extends AbstractType
             ->add('dateLimitInscription', DateTimeType::class, [
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
-                'data' => new \DateTime('now +24 hours')
             ])
             ->add('nbMaxRegistration')
             ->add('informationTrip')

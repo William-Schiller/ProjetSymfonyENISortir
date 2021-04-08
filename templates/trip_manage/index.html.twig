@@ -3,41 +3,41 @@
 {% block title %}Gestion des sorties{% endblock %}
 
 {% block body %}
-<h1>Page de gestion des sorties</h1>
 
     <a href="{{ url('tripManage_create') }}">Creer une sortie</a>
 
-    <div class="container-fluid">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">NOM</th>
-                <th scope="col">ETAT</th>
-                <th scope="col">ACTION</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for trip in trips %}
-                <tr>
-                    <td><a href="">{{ trip.name }}</a></td>
-                    <td>{{ trip.status.name }}</td>
-                    <td>
-                        {% if trip.status.name == 'Create' or trip.status.name == 'Active' %}
-                            <a href="{{ path('tripManage_update', {'id': trip.id}) }}">Modifier</a>
-                            {% if trip.status.name == 'Create' %}
-                                <a href="{{ path('tripManage_publish', {'id': trip.id}) }}">Publier</a>
-                                <a href="{{ path('tripManage_delete', {'id': trip.id}) }}">Supprimer</a>
-                            {% else %}
-                                <a href="#">Afficher</a>{# renvoyer methode detail lulu #}
-                                <a href="{{ path('tripManage_cancel', {'id': trip.id}) }}">Annuler</a>
-                            {% endif %}
-
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+    <div class="text-center mb-5">
+        <h1>Page de gestion des sorties</h1>
     </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">NOM</th>
+            <th scope="col">ETAT</th>
+            <th scope="col">ACTION</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for trip in trips %}
+            <tr>
+                <td><a href="">{{ trip.name }}</a></td>
+                <td>{{ trip.status.name }}</td>
+                <td>
+                    {% if trip.status.name == 'Create' or trip.status.name == 'Active' %}
+                        <a href="{{ path('tripManage_update', {'id': trip.id}) }}">Modifier</a>
+                        {% if trip.status.name == 'Create' %}
+                            <a href="{{ path('tripManage_publish', {'id': trip.id}) }}">Publier</a>
+                            <a href="{{ path('tripManage_delete', {'id': trip.id}) }}">Supprimer</a>
+                        {% else %}
+                            <a href="#">Afficher</a>{# renvoyer methode detail lulu #}
+                            <a href="{{ path('tripManage_cancel', {'id': trip.id}) }}">Annuler</a>
+                        {% endif %}
+
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}
