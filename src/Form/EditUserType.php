@@ -22,7 +22,22 @@ class EditUserType extends AbstractType
             ->add('lastname')
             ->add('phoneNumber')
             ->add('mail')
-            ->add('password')
+            ->add('password', PasswordType::class, [
+                // instead of being set onto the object directly,
+                // this is read and encoded in the controller
+                'mapped' => false,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Entrer un mot de passe',
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Votre mot de passe doit avoir au moins {{ limit }} charactères',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 4096,
+                    ]),
+                ],
+            ])
             ->add('confirmation', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
@@ -41,16 +56,16 @@ class EditUserType extends AbstractType
             ])
 
             ->add('campus')
-       // ->add('picture', FileType::class, [
-          //     'label'=>'Image de profil',
-            //   'mapped'=>false, //pas associe a une entite
-              // 'required'=>false,
-              // 'constraints' => [
-               //    new Image([ //new image
-                 //      'maxSize'=>'10240k',
-                   //    ])
-               //],
-         //  ])
+            ->add('picture', FileType::class, [
+               'label'=>'Image de profil',
+               'mapped'=>false, //pas associe a une entite
+               'required'=>false,
+               'constraints' => [
+                   new Image([ //new image
+                'maxSize'=>'10240k',
+                     ])
+               ],
+          ])
         ;
     }
 

@@ -1,5 +1,6 @@
 
 ###> symfony/framework-bundle ###
+/public/img/profilePicture/*
 /.idea/
 /.env/
 /.env.local
