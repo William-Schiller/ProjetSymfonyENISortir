@@ -115,7 +115,7 @@ class AppFixtures extends Fixture
             $participant = new Participant();
 
             $participant->setPseudo($faker->firstName);
-            $participant->setRoles($faker->);
+            $participant->setRoles($faker->participant);
             $participant->setPassword($faker->password);
             $participant->setLastname($faker->lastName);
             $participant->setName($faker->firstName);
