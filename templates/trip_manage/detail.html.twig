@@ -3,45 +3,89 @@
 {% block title %}Gestion des sorties{% endblock %}
 
 {% block body %}
-    <h1>Page de Modification des sorties - duree {{ trip.duration }}</h1>
 
+    <div class="container text-center p-4 form-group">
+        <h1>Modifier ma sortie :</h1>
+        {{ form_start(tripForm) }}
+        <div class="row my-4">
+            <div class="col-3 offset-3">
+                {{ form_label(tripForm.name, 'Nom') }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(tripForm.name, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-danger">{{ form_errors(tripForm.name) }}</small>
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-3 offset-3">
+                {{ form_label(tripForm.campus) }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(tripForm.campus, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-danger">{{ form_errors(tripForm.campus) }}</small>
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-3 offset-3">
+                {{ form_label(tripForm.adress, 'Adresse') }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(tripForm.adress, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-danger">{{ form_errors(tripForm.adress) }}</small>
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-3 offset-3">
+                {{ form_label(tripForm.dateStart, 'Date de début') }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(tripForm.dateStart.date, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(tripForm.dateStart.time, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-danger">{{ form_errors(tripForm.dateStart) }}</small>
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-3 offset-3">
+                {{ form_label(tripForm.duration, 'Durée (jours)') }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(tripForm.duration, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-danger">{{ form_errors(tripForm.duration) }}</small>
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-3 offset-3">
+                {{ form_label(tripForm.dateLimitInscription, 'Date limite d\'inscription') }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(tripForm.dateLimitInscription.date, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(tripForm.dateLimitInscription.time, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-danger">{{ form_errors(tripForm.dateLimitInscription) }}</small>
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-3 offset-3">
+                {{ form_label(tripForm.nbMaxRegistration, 'Nombre de Participant (MAX)') }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(tripForm.nbMaxRegistration, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-danger">{{ form_errors(tripForm.nbMaxRegistration) }}</small>
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-6 offset-3">
+                {{ form_label(tripForm.informationTrip, 'Informations de la sortie :') }}
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-6 offset-3">
+                {{ form_widget(tripForm.informationTrip, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-danger">{{ form_errors(tripForm.informationTrip) }}</small>
+            </div>
+        </div>
 
-    {% if trip.promoter == app.user %}
-    <div class="container-fluid">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">NOM</th>
-                <th scope="col">CAMPUS</th>
-                <th scope="col">DATE</th>
-                <th scope="col">FIN INSCRIPTION</th>
-                <th scope="col">NB PARTICIPANTS</th>
-                <th scope="col">ETAT</th>
-                <th scope="col">ACTION</th>
-            </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ trip.name }}</td>
-                    <td>{{ trip.campus.name }}</td>
-                    <td>{{ trip.dateStart|date('d/m/Y H:m') }}</td>
-                    <td>{{ trip.dateLimitInscription|date('d/m/Y H:m') }}</td>
-                    <td>- {# Nb de participants #}</td>
-                    <td>{{ trip.status.name }}</td>
-                    <td>
-                        {% if trip.status.id == 1 %}
-                            <a href="">Coucou hiboux</a>
-                        {% else %}
-                            -- Action --
-                        {% endif %}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <button type="submit" class="btn btn-light">Modifier</button>
+        {{ form_end(tripForm) }}
     </div>
-    {% endif %}
-
-    {{ form_start(tripForm) }}<button type="submit">Modifier</button>{{ form_end(tripForm) }}
-
 
 {% endblock %}

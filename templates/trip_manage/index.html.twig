@@ -19,13 +19,19 @@
             <tbody>
             {% for trip in trips %}
                 <tr>
-                    <td><a href="{{ path('tripManage_detail', {'id':trip.id}) }}">{{ trip.name }}</a></td>
+                    <td><a href="">{{ trip.name }}</a></td>
                     <td>{{ trip.status.name }}</td>
                     <td>
-                        {% if trip.status.id == 1 %}
-                            <a href="">coucou hiboux</a>
-                        {% else %}
-                        -- Action --
+                        {% if trip.status.name == 'Create' or trip.status.name == 'Active' %}
+                            <a href="{{ path('tripManage_update', {'id': trip.id}) }}">Modifier</a>
+                            {% if trip.status.name == 'Create' %}
+                                <a href="{{ path('tripManage_publish', {'id': trip.id}) }}">Publier</a>
+                                <a href="{{ path('tripManage_delete', {'id': trip.id}) }}">Supprimer</a>
+                            {% else %}
+                                <a href="#">Afficher</a>{# renvoyer methode detail lulu #}
+                                <a href="{{ path('tripManage_cancel', {'id': trip.id}) }}">Annuler</a>
+                            {% endif %}
+
                         {% endif %}
                     </td>
                 </tr>
