@@ -72,6 +72,27 @@ class Participant implements UserInterface
      */
     private $campus;
 
+   // /**
+   //  * @ORM\Column(type="string", length=255, nullable=true)
+    //   */
+    //private $pictureFileName;
+
+    //  /**
+    //  * @return mixed
+    //   */
+  //  public function getPictureFileName()
+    //  {
+    //     return $this->pictureFileName;
+    //   }
+
+    //   /**
+    //   * @param mixed $pictureFileName
+    //   */
+    //  public function setPictureFileName($pictureFileName): void
+   //  {
+    //   $this->pictureFileName = $pictureFileName;
+    //  }
+
     public function getId(): ?int
     {
         return $this->id;

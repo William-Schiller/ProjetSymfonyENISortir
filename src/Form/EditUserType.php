@@ -4,15 +4,15 @@ namespace App\Form;
 
 use App\Entity\Participant;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\IsTrue;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class RegistrationFormType extends AbstractType
+class EditUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -22,16 +22,8 @@ class RegistrationFormType extends AbstractType
             ->add('lastname')
             ->add('phoneNumber')
             ->add('mail')
-            ->add('campus')
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'Vous devez accepter nos conditions.',
-                    ]),
-                ],
-            ])
-            ->add('plainPassword', PasswordType::class, [
+            ->add('password')
+            ->add('confirmation', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
@@ -48,8 +40,17 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
 
-
-
+            ->add('campus')
+       // ->add('picture', FileType::class, [
+          //     'label'=>'Image de profil',
+            //   'mapped'=>false, //pas associe a une entite
+              // 'required'=>false,
+              // 'constraints' => [
+               //    new Image([ //new image
+                 //      'maxSize'=>'10240k',
+                   //    ])
+               //],
+         //  ])
         ;
     }
 

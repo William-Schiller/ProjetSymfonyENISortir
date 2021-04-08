@@ -29,6 +29,7 @@
             <a class="p-2 text-dark" href="/">Accueil</a>
             {%  if app.user %}
                 <a class="p-2 text-dark" href="{{ path('app_logout') }}">Logout</a>
+                <a class="p-2 text-dark" href="{{ url('showUser', {id: app.user.id}) }}">Mon profil</a>
             {% else %}
                 <a class="p-2 text-dark" href="{{ url('app_register') }}">Creer un compte</a>
                 <a class="p-2 text-dark" href="{{ url('app_login') }}">Se connecter</a>
