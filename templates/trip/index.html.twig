@@ -5,7 +5,9 @@
 {% block body %}
     <h1>Listes des sorties</h1>
 
-    <a href="{{ url('trip_list') }}">Liste des sortie</a>
+
+
+    <a href="{{ url('trip_list') }}">Liste des sorties</a>
 
     <div class="container-fluid">
         <table class="table">
@@ -29,8 +31,8 @@
                     <td>{{ trip.duration }}</td>
                     <td>{{ trip.dateLimitInscription|date("m/d/Y") }}</td>
                     <td>{{ trip.status }}</td>
+                    <td>{{ "X" }}</td>
                     <td>{{ trip.promoter }}</td>
-                    <td>{{ "Lambada" }}</td>
                     <td>{{ "Afficher" }}</td>
                 </tr>
             {% endfor %}

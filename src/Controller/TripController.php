@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -55,6 +57,27 @@ class TripController extends AbstractController
 
     }
 
+    //Filtrer la séléction avec une recherche de mot
+    /**
+     * @Route("/recherche", name="search", methods={"GET", "POST"})
+     */
+    public function search(Request $request)
+    {
+        $form = $this->createFormBuilder()->add('recherche', SearchType::class)->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $em = $this->container->get('doctrine')->getManager();
+            $trips = $em->getRepository('App\Entity\Trip')->search($data ['recherche']);
+            return $this->render('trip/index.html.twig', [
+                'trip' => $trips
+            ]);
+        }
+        return $this->render('trip/index.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
 
     //Récupération des sorties publiées sur chaque campus
     //Utilisateur inscrit ou utilisateur organisateur
