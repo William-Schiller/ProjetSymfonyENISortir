@@ -12,7 +12,7 @@ use App\Entity\Trip;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\User\User;
+
 
 class AppFixtures extends Fixture
 {
@@ -26,26 +26,140 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $sql = file_get_contents(__DIR__
-            . '/adress.sql'
-            . '/campus.sql'
-            . '/city.sql'
-            . '/inscription.sql'
-            . '/participant.sql'
-            . '/status.sql'
-            . '/trip.sql');
-
-        $stmt = $manager->getConnection()->prepare($sql);
-        $stmt->execute();
-
-        $stmt->closeCursor();
 
         $faker = \Faker\Factory::create("fr_FR");
 
+        //STATUS
+        $status = new Status();
+        $status->setName('Active');
+        $manager->persist($status);
+
+        $manager->flush();
+
+        $status = new Status();
+        $status->setName('Create');
+        $manager->persist($status);
+
+        $manager->flush();
+
+        $status = new Status();
+        $status->setName('Closure');
+        $manager->persist($status);
+
+        $manager->flush();
+
+        $status = new Status();
+        $status->setName('Desactivate');
+        $manager->persist($status);
+
+        $manager->flush();
+
+        $status = new Status();
+        $status->setName('Past');
+        $manager->persist($status);
+
+        $manager->flush();
+
+        $status = new Status();
+        $status->setName('In progress');
+        $manager->persist($status);
+
+        $manager->flush();
+
+        $allStatus = $manager->getRepository(Status::class)->findAll();
+
+        //CAMPUS
+        $campus = new Campus();
+        $campus->setName('Nantes');
+        $manager->persist($campus);
+
+        $manager->flush();
+
+        $campus = new Campus();
+        $campus->setName('Rennes');
+        $manager->persist($campus);
+
+        $manager->flush();
+
+        $campus = new Campus();
+        $campus->setName('Angers');
+        $manager->persist($campus);
+
+        $manager->flush();
+
+        $allCampus = $manager->getRepository(Campus::class)->findAll();
+
+        //CITY
+        $city = new City();
+        $city->setName('MarioTown');
+        $city->setPostalCode(35768);
+        $manager->persist($city);
+
+        $manager->flush();
+
+        $city = new City();
+        $city->setName('CityLol');
+        $city->setPostalCode(39000);
+        $manager->persist($city);
+
+        $manager->flush();
+
+        $city = new City();
+        $city->setName('Londres');
+        $city->setPostalCode(31879);
+        $manager->persist($city);
+
+        $manager->flush();
+
+        $allCity = $manager->getRepository(City::class)->findAll();
+
+        //ADDRESS
+        $address = new Adress();
+        $address->setName('Address 1');
+        $address->setCity($faker->randomElement($allCity));
+        $address->setLongitude('48.862725');
+        $address->setLatitude('2.287592');
+        $address->setStreet('1 rue des Etoiles');
+        $manager->persist($address);
+
+        $manager->flush();
+
+        $address = new Adress();
+        $address->setName('Address 2');
+        $address->setCity($faker->randomElement($allCity));
+        $address->setLongitude('52.51897652049578');
+        $address->setLatitude('-0.7645472822265464');
+        $address->setStreet('2 allées des embrumes');
+        $manager->persist($address);
+
+        $manager->flush();
+
+        $address = new Adress();
+        $address->setName('Address 3');
+        $address->setCity($faker->randomElement($allCity));
+        $address->setLongitude('6.723662309812199');
+        $address->setLatitude('-72.83485978222654');
+        $address->setStreet('3 impasse de la Rigolade');
+        $manager->persist($address);
+
+        $manager->flush();
+
+        $allAddress = $manager->getRepository(Adress::class)->findAll();
+
+
+
+        //PARTICIPANTS
         $participant = new Participant();
         $participant->setMail('tagada@tsouintsouin.com');
         $participant->setPassword($this->encoder->encodePassword($participant, 'tagada'));
         $participant->setRoles(['ROLE_USER']);
+        $participant->setPseudo('gaga');
+        $participant->setPhoneNumber('0843819234');
+        $participant->setAdmin('ROLE_USER');
+        $participant->setLastname('Momo');
+        $participant->setActive(false);
+        $participant->setCampus($faker->randomElement($allCampus));
+        $participant->setName('hehehe');
         $manager->persist($participant);
 
         $manager->flush();
@@ -54,81 +168,108 @@ class AppFixtures extends Fixture
         $participant->setMail('admin@tsouintsouin.com');
         $participant->setPassword($this->encoder->encodePassword($participant, 'admin'));
         $participant->setRoles(['ROLE_ADMIN']);
+        $participant->setPseudo('Pouet');
+        $participant->setPhoneNumber('0762626262');
+        $participant->setAdmin('ROLE_ADMIN');
+        $participant->setLastname('Pouet');
+        $participant->setActive(true);
+        $participant->setCampus($faker->randomElement($allCampus));
+        $participant->setName('Tsouin');
         $manager->persist($participant);
 
         $manager->flush();
 
         $allParticipants = $manager->getRepository(Participant::class)->findAll();
 
-        for ($i = 0; $i < 100; $i++) {
-            $status = new Status();
+        //TRIP
+        $trip = new Trip();
+        $trip->setAdress($faker->randomElement($allAddress));
+        $trip->setPromoter($faker->randomElement($allParticipants));
+        $trip->setName('Wiwi');
+        $trip->setCampus($faker->randomElement($allCampus));
+        $trip->setStatus($faker->randomElement($allStatus));
+        $trip->setDateLimitInscription($faker->dateTimeBetween('-32 months', 'now'));
+        $trip->setDateStart($faker->dateTimeBetween('now', '+ 6 months'));
+        $trip->setDuration($faker->randomDigit);
+        $trip->setInformationTrip('Aller se promener dans les bois ...C\'est wiwi qui a eu l\'idée');
+        $trip->setNbMaxRegistration($faker->randomDigit);
+        $manager->persist($trip);
 
-            $status->setName($faker->firstName);
-
-            $manager->persist($status);
-        }
         $manager->flush();
 
-        for ($i = 0; $i < 100; $i++) {
-            $campus = new Campus();
+        $trip = new Trip();
+        $trip->setAdress($faker->randomElement($allAddress));
+        $trip->setPromoter($faker->randomElement($allParticipants));
+        $trip->setName('Jean');
+        $trip->setCampus($faker->randomElement($allCampus));
+        $trip->setStatus($faker->randomElement($allStatus));
+        $trip->setDateLimitInscription($faker->dateTimeBetween('-6 months', 'now'));
+        $trip->setDateStart($faker->dateTimeBetween('now', '+ 24 months'));
+        $trip->setDuration($faker->randomDigit);
+        $trip->setInformationTrip('Voyage dans la creuse parce qu\'a défaut de voyager ailleurs c\'est sympa la Creuse');
+        $trip->setNbMaxRegistration($faker->randomDigit);
+        $manager->persist($trip);
 
-            $campus->setName($faker->randomLetter);
-
-            $manager->persist($campus);
-        }
         $manager->flush();
+
+        $trip = new Trip();
+        $trip->setAdress($faker->randomElement($allAddress));
+        $trip->setPromoter($faker->randomElement($allParticipants));
+        $trip->setName('Pangolin');
+        $trip->setCampus($faker->randomElement($allCampus));
+        $trip->setStatus($faker->randomElement($allStatus));
+        $trip->setDateLimitInscription($faker->dateTimeBetween('-12 months', 'now'));
+        $trip->setDateStart($faker->dateTimeBetween('now', '+ 56 months'));
+        $trip->setDuration($faker->randomDigit);
+        $trip->setInformationTrip('Sortir sans masque. Ca serait vraiment bien quand même');
+        $trip->setNbMaxRegistration($faker->randomDigit);
+        $manager->persist($trip);
+
+        $manager->flush();
+
+        $allTrip = $manager->getRepository(Trip::class)->findAll();
+
 
         for ($i = 0; $i < 100; $i++) {
             $city = new City();
 
-            $city->setName($faker->firstName);
-            $city->setPostalCode($faker->postcode);
+            $city->setName($faker->city);
+            $city->setPostalCode($faker->numberBetween(10000, 99999));
 
             $manager->persist($city);
         }
         $manager->flush();
 
         for ($i = 0; $i < 100; $i++) {
-            $inscription = new Inscription();
+            $address = new Adress();
 
-            $inscription->setParticipant($faker->randomElement($allParticipants));
-            $inscription->setTrip($faker->text);
+            $address->setName($faker->firstName);
+            $address->setStreet($faker->streetAddress);
+            $address->setLatitude($faker->latitude);
+            $address->setLongitude($faker->longitude);
+            $address->setCity($faker->randomElement($allCity));
 
-            $manager->persist($inscription);
-        }
-        $manager->flush();
-
-        for ($i = 0; $i < 100; $i++) {
-            $adress = new Adress();
-
-            $adress->setName($faker->firstName);
-            $adress->setStreet($faker->streetAddress);
-            $adress->setLatitude($faker->latitude);
-            $adress->setLongitude($faker->longitude);
-            $adress->setCity($faker->city);
-
-            $manager->persist($adress);
+            $manager->persist($address);
         }
         $manager->flush();
 
         for ($i = 0; $i < 100; $i++) {
             $participant = new Participant();
 
-            $participant->setPseudo($faker->firstName);
-            $participant->setRoles($faker->);
+            $participant->setPseudo($faker->unique()->firstName);
+            $participant->setRoles((array)'ROLE_USER');
             $participant->setPassword($faker->password);
             $participant->setLastname($faker->lastName);
             $participant->setName($faker->firstName);
-            $participant->setPhoneNumber($faker->phoneNumber);
+            $participant->setPhoneNumber($faker->numberBetween(1000000000, 9999999999));
             $participant->setMail($faker->email);
             $participant->setActive($faker->boolean);
-            $participant->setCampus($faker->text);
-            $participant->setAdmin($faker->u);
+            $participant->setCampus($faker->randomElement($allCampus));
+            $participant->setAdmin('ROLE_ADMIN');
 
             $manager->persist($participant);
         }
         $manager->flush();
-
 
         for ($i = 0; $i < 100; $i++) {
             $trip = new Trip();
@@ -139,13 +280,31 @@ class AppFixtures extends Fixture
             $trip->setDateLimitInscription($faker->dateTimeBetween('now', '+ 6 months'));
             $trip->setNbMaxRegistration($faker->randomDigit);
             $trip->setInformationTrip($faker->realText(100));
-            $trip->setCampus($faker->text);
-            $trip->setAdress($faker->address);
-            $trip->setPromoter($faker->firstName);
+            $trip->setCampus($faker->randomElement($allCampus));
+            $trip->setAdress($faker->randomElement($allAddress));
+            $trip->setPromoter($faker->randomElement($allParticipants));
+            $trip->setStatus($faker->randomElement($allStatus));
 
             $manager->persist($trip);
         }
         $manager->flush();
+
+        for ($i = 0; $i < 100; $i++) {
+            $inscription = new Inscription();
+
+            $inscription->setParticipant($faker->randomElement($allParticipants));
+            $inscription->setTrip($faker->randomElement($allTrip));
+
+            $manager->persist($inscription);
+        }
+        $manager->flush();
+
+
+
+
+
+
+
 
     }
 
