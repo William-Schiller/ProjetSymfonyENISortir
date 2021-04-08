@@ -185,7 +185,7 @@ class AppFixtures extends Fixture
         $trip = new Trip();
         $trip->setAdress($faker->randomElement($allAddress));
         $trip->setPromoter($faker->randomElement($allParticipants));
-        $trip->setName('Wiwi');
+        $trip->setName('Danse');
         $trip->setCampus($faker->randomElement($allCampus));
         $trip->setStatus($faker->randomElement($allStatus));
         $trip->setDateLimitInscription($faker->dateTimeBetween('-32 months', 'now'));
@@ -200,7 +200,7 @@ class AppFixtures extends Fixture
         $trip = new Trip();
         $trip->setAdress($faker->randomElement($allAddress));
         $trip->setPromoter($faker->randomElement($allParticipants));
-        $trip->setName('Jean');
+        $trip->setName('Chante');
         $trip->setCampus($faker->randomElement($allCampus));
         $trip->setStatus($faker->randomElement($allStatus));
         $trip->setDateLimitInscription($faker->dateTimeBetween('-6 months', 'now'));
@@ -215,7 +215,7 @@ class AppFixtures extends Fixture
         $trip = new Trip();
         $trip->setAdress($faker->randomElement($allAddress));
         $trip->setPromoter($faker->randomElement($allParticipants));
-        $trip->setName('Pangolin');
+        $trip->setName('Ris');
         $trip->setCampus($faker->randomElement($allCampus));
         $trip->setStatus($faker->randomElement($allStatus));
         $trip->setDateLimitInscription($faker->dateTimeBetween('-12 months', 'now'));
@@ -274,7 +274,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 100; $i++) {
             $trip = new Trip();
 
-            $trip->setName($faker->firstName);
+            $trip->setName($faker->word);
             $trip->setDateStart($faker->dateTimeBetween('-6 months', 'now'));
             $trip->setDuration($faker->randomDigit);
             $trip->setDateLimitInscription($faker->dateTimeBetween('now', '+ 6 months'));

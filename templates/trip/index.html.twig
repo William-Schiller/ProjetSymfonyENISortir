@@ -23,15 +23,16 @@
             </thead>
             <tbody>
             {% for trip in trips %}
-                <td>{{ trip.name }}</td>
-                <td>{{ trip.dateStart }}</td>
-                <td>{{ trip.limitInscription }}</td>
-                <td>{{ trip.nbMaxRegistration }}</td>
-                <td>{{ trip.statut }}</td>
-                <td>{{ trip.promoter }}</td>
-                <td>"lambada"</td>
-
-
+                <tr>
+                    <td>{{ trip.name }}</td>
+                    <td>{{ trip.dateStart|date("m/d/Y") }}</td>
+                    <td>{{ trip.duration }}</td>
+                    <td>{{ trip.dateLimitInscription|date("m/d/Y") }}</td>
+                    <td>{{ trip.status }}</td>
+                    <td>{{ trip.promoter }}</td>
+                    <td>{{ "Lambada" }}</td>
+                    <td>{{ "Afficher" }}</td>
+                </tr>
             {% endfor %}
             </tbody>
         </table>
