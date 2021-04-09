@@ -23,11 +23,14 @@ class EditUserController extends AbstractController
         $user = $this->getDoctrine()
             ->getRepository('App:Participant') //où se situe l'entité concerné
             ->find($id);// accepte en para un élément de l'idée à récupérer
+
         if (!$user) {
             throw $this->createNotFoundException('Aucun utilisateur correspond à l\'id :' . $id);
         }
+
         //Instanciation du formulaire basé sur un objet user
         $userForm = $this->createForm(EditUserType::class, $user);
+
         //determine si le formulaire a ete soumis ou non(si soumis, il ecrit les
         //valeurs saisies dans les propritetes de l'objet lié au formulaire
         $userForm->handleRequest($request);
@@ -43,7 +46,7 @@ class EditUserController extends AbstractController
                 //générer un nouveau nom unique pour l'image
                 $newFileName = uniqid().'.'.$image->guessExtension();
 
-                //Charger l'image dans le progjet 'picture_profile_directory' qui est ensuite configue dans service.yaml
+                    //Charger l'image dans le progjet 'picture_profile_directory' qui est ensuite configue dans service.yaml
                 try {//Upload l'image dans un fichier du projet
                     $image->move(
                         $this->getParameter('picture_profile_directory'), $newFileName);

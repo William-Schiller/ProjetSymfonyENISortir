@@ -40,7 +40,7 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
 
     public function findUser($limit, $numPage) {
         $qb = $this->createQueryBuilder('user')
-            ->where('user.admin = :admin')->setParameter(':admin', 1)
+            ->where('user.admin = :admin')->setParameter(':admin', 0)
             ->setMaxResults($limit)
             ->setFirstResult(($numPage-1)*$limit)
         ;
@@ -52,6 +52,15 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         $qb = $this->createQueryBuilder('user');
         $query = $qb->getQuery();
         return ceil(count($query->getResult())/$nbLine);
+    }
+
+    public function setActive($participantId, $active){
+
+        dump($participantId);
+        dump($active);
+
+        // aller dans mettre a jour le champ active dans la bdd pour le praticpant
+
     }
 
         // /**

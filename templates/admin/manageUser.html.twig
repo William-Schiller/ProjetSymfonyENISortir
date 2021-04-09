@@ -1,0 +1,60 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Tableau utilisateurs{% endblock %}
+{% block body %}
+    <div class="p-5">
+        <h2>Tableau utilisateurs</h2>
+
+
+        <div class="text-center mb-5">
+            <h1>Gestion de l'activité des utilisateurs</h1>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Nom</th>
+                <th scope="col"> E-mail</th>
+                <th scope="col">Actif</th>
+                <th scope="col">Accès utilisateur</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.pseudo }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.lastName }}</td>
+                        <td>{{ user.mail }}</td>
+                        <td>{%  if user.active == 1 %}
+                            Oui
+                            {% else %}
+                                Non
+                            {% endif %}
+                        </td>
+                        <td>{%  if user.active == 0 %}
+                            <a href="{{ path('admin_activation', {'id':user.id, 'active':'activate'}) }}"> Activer </a>
+                            {% else %}
+                            <a href="{{ path('admin_activation', {'id':user.id, 'active':'deactivate'}) }}"> Désactiver </a>
+                        </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="row justify-content-between">
+            <div>
+                {% if numPage > 1 %}
+                    <a href="{{ path('admin_listUser', {'numPage': numPage-1}) }}"> Précédent </a>
+                {% endif %}
+            </div>
+            <div>
+                {% if numPage < nbPages %}
+                    <a href="{{ path('admin_listUser', {'numPage': numPage+1}) }}"> Suivant </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
