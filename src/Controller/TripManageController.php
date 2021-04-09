@@ -49,11 +49,11 @@ class TripManageController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        $trip->setDuration($trip->getDuration()/60/60/24); // Duration second on day for form
+        $trip->setDuration($trip->getDuration()/60/60); // Duration second on hours for form
         $form = $this->createForm(UpdateManageTripType::class, $trip);
 
         $form->handleRequest($request);
-        $trip->setDuration($trip->getDuration()*60*60*24); // Duration day on second
+        $trip->setDuration($trip->getDuration()*60*60); // Duration hours on second
 
         if($form->isSubmitted() && $form->isValid() && $managerServices->checkDatesTrip($trip)){
             $trip->setPromoter($this->getUser());
@@ -87,8 +87,8 @@ class TripManageController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid() && $managerServices->checkDatesTrip($trip)){
 
-            $trip->setDuration($trip->getDuration()*60*60*24); // Duration day on second
-            $trip->setStatus($statusRepository->findOneBy(['id'=>1]));
+            $trip->setDuration($trip->getDuration()*60*60); // Duration hour on second
+            $trip->setStatus($statusRepository->findOneBy(['name' => 'Create']));
             $trip->setPromoter($this->getUser());
 
             $entityManager->persist($trip);
