@@ -5,7 +5,9 @@ namespace App\Repository;
 use App\Entity\Participant;
 use App\Entity\Trip;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use UnexpectedValueException;
 
 /**
  * @method Trip|null find($id, $lockMode = null, $lockVersion = null)
@@ -25,7 +27,8 @@ class TripRepository extends ServiceEntityRepository
      * @return Trip[] Returns an array of Trip object where the promotor is the app_user
      * and where the status of trip is updatable
      */
-    public function findMyTripsNotInProgress(Participant $user){
+    public function findMyTripsNotInProgress(Participant $user)
+    {
 
         return $this->createQueryBuilder('t')
             ->innerJoin('t.status', 's')
@@ -38,6 +41,35 @@ class TripRepository extends ServiceEntityRepository
             ->orderBy('t.dateStart', 'DESC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findAllWithPage($limit, $numPage)
+    {
+        $queryBuilder = $this->createQueryBuilder('trip')
+            ->setMaxResults($limit)
+            ->setFirstResult(($numPage - 1) * $limit);
+        $query = $queryBuilder->getQuery();
+        return new Paginator($query);
+    }
+
+    //Filtre par campus
+    public function findWhereCampusWithPage($limit, $numPage, $idCampus)
+    {
+        $queryBuilder = $this->createQueryBuilder('trip')
+            ->join('trip.campus', 'camp')
+            ->where('camp.id = :idCampus')
+            ->setParameter('idCampus', $idCampus)
+            ->setMaxResults($limit)
+            ->setFirstResult(($numPage - 1) * $limit);
+        $query = $queryBuilder->getQuery();
+        return new Paginator($query);
+    }
+
+    public function nbPages($nbLine)
+    {
+        $queryBuilder = $this->createQueryBuilder('trip');
+        $query = $queryBuilder->getQuery();
+        return ceil(count($query->getResult()) / $nbLine);
     }
 
     // /**
