@@ -155,7 +155,7 @@ class AppFixtures extends Fixture
         $participant->setRoles(['ROLE_USER']);
         $participant->setPseudo('gaga');
         $participant->setPhoneNumber('0843819234');
-        $participant->setAdmin('ROLE_USER');
+        $participant->setAdmin(false);
         $participant->setLastname('Momo');
         $participant->setActive(false);
         $participant->setCampus($faker->randomElement($allCampus));
@@ -170,7 +170,7 @@ class AppFixtures extends Fixture
         $participant->setRoles(['ROLE_ADMIN']);
         $participant->setPseudo('Pouet');
         $participant->setPhoneNumber('0762626262');
-        $participant->setAdmin('ROLE_ADMIN');
+        $participant->setAdmin(true);
         $participant->setLastname('Pouet');
         $participant->setActive(true);
         $participant->setCampus($faker->randomElement($allCampus));
@@ -265,7 +265,7 @@ class AppFixtures extends Fixture
             $participant->setMail($faker->email);
             $participant->setActive($faker->boolean);
             $participant->setCampus($faker->randomElement($allCampus));
-            $participant->setAdmin('ROLE_ADMIN');
+            $participant->setAdmin(false);
 
             $manager->persist($participant);
         }
