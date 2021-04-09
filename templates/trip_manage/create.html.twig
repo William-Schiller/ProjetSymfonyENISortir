@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    <script src="{{ asset('/js/durationTrip.js') }}"></script>
+{% endblock %}
+
 {% block title %}Gestion des sorties{% endblock %}
 
 {% block body %}
@@ -55,10 +59,11 @@
         </div>
         <div class="row my-4 justify-content-around">
             <div class="col-md-6">
-                {{ form_label(tripForm.duration, 'Durée (jours)') }}
+                {{ form_label(tripForm.duration, 'Durée (heure)') }}
+                <small id="idDurationConv"></small>
             </div>
             <div class="col-md-6">
-                {{ form_widget(tripForm.duration, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(tripForm.duration, {'attr': {'class': 'form-control', 'onChange': 'postDuration()'}}) }}
                 <small class="text-danger">{{ form_errors(tripForm.duration) }}</small>
             </div>
         </div>
