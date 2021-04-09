@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class EditUserController extends AbstractController
 {
     /**
-     * @Route("/showUser/{id}", name="showUser", requirements={"id"="\d+"})
+     * @Route("/Utilisateur/{id}", name="showUser", requirements={"id"="\d+"})
      */
     public function showUser(Request $request, $id)
     {
@@ -28,7 +28,6 @@ class EditUserController extends AbstractController
         }
         //Instanciation du formulaire basé sur un objet user
         $userForm = $this->createForm(EditUserType::class, $user);
-//mise a jour update
         //determine si le formulaire a ete soumis ou non(si soumis, il ecrit les
         //valeurs saisies dans les propritetes de l'objet lié au formulaire
         $userForm->handleRequest($request);

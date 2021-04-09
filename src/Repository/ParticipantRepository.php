@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Participant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -34,6 +35,23 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         $user->setPassword($newEncodedPassword);
         $this->_em->persist($user);
         $this->_em->flush();
+    }
+
+
+    public function findUser($limit, $numPage) {
+        $qb = $this->createQueryBuilder('user')
+            ->where('user.admin = :admin')->setParameter(':admin', 1)
+            ->setMaxResults($limit)
+            ->setFirstResult(($numPage-1)*$limit)
+        ;
+        $query = $qb->getQuery();
+        return new Paginator($query);
+    }
+
+    public function nbPages($nbLine) {
+        $qb = $this->createQueryBuilder('user');
+        $query = $qb->getQuery();
+        return ceil(count($query->getResult())/$nbLine);
     }
 
         // /**
