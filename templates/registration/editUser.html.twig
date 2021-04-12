@@ -15,8 +15,10 @@
             <b>client</b>
         {% endif %}
     </p>#}
-
+    <div align="right">
     <img src="{{ asset( '/img/profilePicture/' ~app.user.pictureFileName) }}" alt="profile-pic" />
+    </div>
+    <div align="center">
 
     {{ form_start(userForm) }}
 
@@ -52,6 +54,8 @@
     <button type="reset" class="btn">Annuler</button>
 
     {{ form_end(userForm) }}
+
+    </div>
 
 
 
