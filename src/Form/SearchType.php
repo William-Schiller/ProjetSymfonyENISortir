@@ -10,11 +10,11 @@ use App\Entity\Trip;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\Validator\Constraints\DateTime;
+
 
 class SearchType extends AbstractType
 {
@@ -34,20 +34,18 @@ class SearchType extends AbstractType
             'required' => false,
             'class' => 'App\Entity\Campus'
         ])
-        /*->add('dateMin', Date::class, [
-            'label' => false,
-            'required' => false,
+        ->add('dateMin', DateType::class, [
+            'label' => 'Entre le',
+            'format' => 'dd/MM/yyyy',
             'attr' => [
-                'placeholder' => 'Date minimum'
+                'class' => 'date_picker'
             ]
         ])
-        ->add('dateMax', Date::class, [
-            'label' => false,
-            'required' => false,
-            'attr' => [
-                'placeholder' => 'Date maximum'
-            ]
-        ])*/
+        ->add('dateMax', DateType::class, [
+            'label' => 'et le',
+            'format' => 'dd/MM/yyyy'
+        ])
+
         ->add('isOrganizer', CheckboxType::class, [
             'label' => 'Sorties dont je suis l\'organisateur/trice',
             'required' => false,

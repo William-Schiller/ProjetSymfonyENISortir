@@ -34,6 +34,7 @@
                 {%  if app.user %}
                     <a class="p-2 text-dark" href="{{ path('app_logout') }}">Logout</a>
                     <a class="p-2 text-dark" href="{{ url('showUser', {id: app.user.id}) }}">Mon profil</a>
+                    <a class="p-2 text-dark" href="{{ path('trip_list') }}">Sorties</a>
                     <a class="p-2 text-dark" href="{{ path('tripManage_index') }}">Gestion Sortie</a>
                     <a class="p-2 text-dark" href="{{ path('admin_listUser') }}">Liste des utilisateurs</a>
                 {% else %}

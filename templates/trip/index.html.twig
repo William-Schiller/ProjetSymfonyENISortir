@@ -58,9 +58,9 @@
                 <tr>
                     <td>{{ trip.campus.name }}</td>
                     <td>{{ trip.name }}</td>
-                    <td>{{ trip.dateStart|date("m/d/Y") }}</td>
+                    <td>{{ trip.dateStart|date("d/m/Y") }}</td>
+                    <td>{{ trip.dateLimitInscription|date("d/m/Y") }}</td>
                     <td>{{ trip.duration }}</td>
-                    <td>{{ trip.dateLimitInscription|date("m/d/Y") }}</td>
                     <td>{{ trip.status }}</td>
                     <td>{{ "X" }}</td>
                     <td>{{ trip.promoter }}</td>

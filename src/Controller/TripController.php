@@ -24,8 +24,9 @@ class TripController extends AbstractController
     /**
      * @Route("{numPage}", requirements={"numPage":"\d+"}, defaults={"numPage":"1"}, name="list", methods={"GET", "POST"})
      */
-    public function list($numPage, Request $request, TripRepository $tripRepo, CampusRepository $campusRepo)
+    public function list($numPage, Request $request, TripRepository $tripRepo)
     {
+
         $nbLines = 10;
         $nbPages = $tripRepo->nbPages($nbLines);
 
@@ -34,7 +35,7 @@ class TripController extends AbstractController
         $form->handleRequest($request);
         $formSearch = $form->createView();
 
-        $trips = $tripRepo->findAll();
+        $trips = $tripRepo->findSearch($data, $this->getUser()->getId());
 
         //$trips = $tripRepo->findSearch($data);
 

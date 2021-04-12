@@ -61,23 +61,44 @@ class TripRepository extends ServiceEntityRepository
     }
 
 
-    /*/**
-     * Récupère les produits en lien avec une recherche
+    /**
+     * Récupère les sorties en lien avec une recherche
      * @return Trip[]
      */
-    /*public function findSearch(SearchData $search): array
+    public function findSearch(SearchData $search, $idCurrentUser): array
     {
         $query = $this
-            ->createQueryBuilder('p')
-            ->join('p.trip', 'c');
+            ->createQueryBuilder('trips')
+            ->select('camp', 'trips')
+            ->join('trips.campus', 'camp');
 
         if (!empty($search->search)){
             $query = $query
-                ->andWhere('p.name LIKE :search')
+                ->andWhere('trips.name LIKE :search')
                 ->setParameter('search', "%{$search->search}%");
         }
+
+        if (!empty($search->dateMin)){
+            $query = $query
+                ->andWhere('trips.dateStart >= :dateMin')
+                ->setParameter('dateMin', $search->dateMin);
+        }
+
+        if (!empty($search->dateMax)){
+            $query = $query
+                ->andWhere('trips.dateStart <= :dateMax')
+                ->setParameter('dateMax', $search->dateMax);
+        }
+
+        /*if (!empty($search->isOrganizer)){
+            $query = $query
+                ->where('trips.promoter = :idCurrentUser')
+                ->setParameter('idCurrentUser', $idCurrentUser);
+
+        }*/
+
         return $query->getQuery()->getResult();
-   }*/
+   }
 
     // /**
     //  * @return Trip[] Returns an array of Trip objects
