@@ -3,71 +3,86 @@
 {% block title %} {% endblock %}
 
 {% block body %}
-<h1>Listes des sorties</h1>
+    <h1>Listes des sorties</h1>
 
-<a href="{{ url('trip_list') }}">Liste des sorties</a>
+    <a href="{{ url('tripManage_create') }}">Creer une sortie</a>
 
-<div>
-    <form action="{{ url('trip_list') }}" method="post">
-        <label>
-            Liste Campus
-            <select name="campusFilter">
-                <option value="">Séléctionner un campus</option>
-                {% for campus in campusList %}
-                    <option value="{{ campus.id }}">{{ campus.name }}</option>
-                {% endfor %}
-            </select>
-        </label>
-        <input type="submit">
-    </form>
+    <div>
+        <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                {% include 'trip/filter.html.twig' with {formSearch: formSearch} only %}
+            </div>
+            <div class="col-md-9">
 
-</div>
-
-<div class="container-fluid">
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">CAMPUS</th>
-            <th scope="col">NOM DE LA SORTIE</th>
-            <th scope="col">DATE DE LA SORTIE</th>
-            <th scope="col">CLOTURES</th>
-            <th scope="col">INSCRITS/PLACES</th>
-            <th scope="col">ETAT</th>
-            <th scope="col">INSCRIT</th>
-            <th scope="col">ORGANISATEUR</th>
-            <th scope="col">ACTIONS</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for trip in trips %}
-            <tr>
-                <td>{{ trip.campus.name }}</td>
-                <td>{{ trip.name }}</td>
-                <td>{{ trip.dateStart|date("m/d/Y") }}</td>
-                <td>{{ trip.duration }}</td>
-                <td>{{ trip.dateLimitInscription|date("m/d/Y") }}</td>
-                <td>{{ trip.status }}</td>
-                <td>{{ "X" }}</td>
-                <td>{{ trip.promoter }}</td>
-                <td>{{ "Afficher" }}</td>
-            </tr>
-        {% endfor %}
-
-
-        </tbody>
-    </table>
-
-    <div class="row justify-content-between">
-        <div>
-            {% if numPage > 1 %}
-                <a href="{{ path('trip_list', {'numPage': numPage-1}) }}"> Précédent </a>
-            {% endif %}
+            </div>
         </div>
-        <div>
-            {% if numPage < nbPages %}
-                <a href="{{ path('trip_list', {'numPage': numPage+1}) }}"> Suivant </a>
-            {% endif %}
+
+        </div>
+
+        {#  <form action="{{ url('trip_list') }}" method="post">
+            <label>
+                Liste Campus
+                <select name="campusFilter">
+                    <option value="">Séléctionner un campus</option>
+                    {% for campus in campusList %}
+                        <option value="{{ campus.id }}"
+                                {% if campus.id == idCampus %}
+                                    selected
+                                {% endif %}
+                        >{{ campus.name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <input type="submit">
+        </form> #}
+    </div>
+
+    <div class="container-fluid">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">CAMPUS</th>
+                <th scope="col">NOM DE LA SORTIE</th>
+                <th scope="col">DATE DE LA SORTIE</th>
+                <th scope="col">CLOTURES</th>
+                <th scope="col">INSCRITS/PLACES</th>
+                <th scope="col">ETAT</th>
+                <th scope="col">INSCRIT</th>
+                <th scope="col">ORGANISATEUR</th>
+                <th scope="col">ACTIONS</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for trip in trips %}
+                <tr>
+                    <td>{{ trip.campus.name }}</td>
+                    <td>{{ trip.name }}</td>
+                    <td>{{ trip.dateStart|date("m/d/Y") }}</td>
+                    <td>{{ trip.duration }}</td>
+                    <td>{{ trip.dateLimitInscription|date("m/d/Y") }}</td>
+                    <td>{{ trip.status }}</td>
+                    <td>{{ "X" }}</td>
+                    <td>{{ trip.promoter }}</td>
+                    <td>{{ "Afficher" }}</td>
+                </tr>
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+
+        <div class="row justify-content-between">
+            <div>
+                {% if numPage > 1 %}
+                    <a href="{{ path('trip_list', {'numPage': numPage-1}) }}"> Précédent </a>
+                {% endif %}
+            </div>
+            <div>
+                {% if numPage < nbPages %}
+                    <a href="{{ path('trip_list', {'numPage': numPage+1}) }}"> Suivant </a>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
-    {% endblock %}
+{% endblock %}
