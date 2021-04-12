@@ -55,6 +55,7 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
         $request->getSession()->set(
             Security::LAST_USERNAME,
             $credentials['pseudo']
+
         );
 
         return $credentials;
@@ -67,13 +68,15 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->entityManager->getRepository(Participant::class)->findOneBy(['pseudo' => $credentials['pseudo']]);
+        $user = $this->entityManager->getRepository(Participant::class)->loadUserByUsername( $credentials['pseudo']);
 
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Pseudo introuvable.');
         }
-
+        if(!$user->getActive()){
+            throw new CustomUserMessageAuthenticationException('Compte en attente d\'activation.');
+        }
         return $user;
     }
 
@@ -92,6 +95,9 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        $request->getSession()->getFlashBag()->add('success', 'You\'re login');
+
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }

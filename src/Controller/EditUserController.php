@@ -25,7 +25,7 @@ class EditUserController extends AbstractController
             ->find($id);// accepte en para un élément de l'idée à récupérer
 
         if (!$user) {
-            throw $this->createNotFoundException('Aucun utilisateur correspond à l\'id :' . $id);
+            throw $this->createNotFoundException('Aucun utilisateur ne correspond à l\'id :' . $id);
         }
 
         //Instanciation du formulaire basé sur un objet user
