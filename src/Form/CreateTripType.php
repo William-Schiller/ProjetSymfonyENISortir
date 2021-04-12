@@ -2,8 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\City;
 use App\Entity\Trip;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,8 +15,6 @@ class CreateTripType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $dateNow = new \DateTime('now');
-
         $builder
             ->add('name')
             ->add('dateStart', DateTimeType::class, [
@@ -31,6 +32,11 @@ class CreateTripType extends AbstractType
             ->add('informationTrip')
             ->add('campus')
             ->add('adress')
+            ->add('city', EntityType::class, [
+                'class' => 'App\Entity\City',
+                'placeholder' => 'Selectionner une ville',
+                'mapped' => false,
+            ])
         ;
     }
 

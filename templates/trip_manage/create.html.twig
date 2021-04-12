@@ -2,11 +2,21 @@
 
 {% block javascripts %}
     <script src="{{ asset('/js/durationTrip.js') }}"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script> {# Axios #}
+    {# TODO TEST DEBUT #}
+    <script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
+    {# TODO TEST FIN #}
 {% endblock %}
 
 {% block title %}Gestion des sorties{% endblock %}
 
 {% block body %}
+<script>
+    //Recuperer le path pour function chargement des adresses
+    const searchAddressURL = "{{ path('tripManage_search_city') }}";
+</script>
+
 <h1>Page de creation des sorties</h1>
 
     <a href="{{ url('tripManage_index') }}">retour</a>
@@ -34,6 +44,15 @@
         </div>
         <div class="row my-4 justify-content-around">
             <div class="col-md-6">
+                {{ form_label(tripForm.city, 'Ville :') }}
+            </div>
+            <div class="col-md-6">
+                {{ form_widget(tripForm.city, {'attr': {'class': 'form-control', 'onChange': 'postDuration()'}}) }}
+                <small class="text-danger">{{ form_errors(tripForm.city) }}</small>
+            </div>
+        </div>
+        <div class="row my-4 justify-content-around">
+            <div class="col-md-6">
                 {{ form_label(tripForm.adress, 'Adresse') }}
             </div>
             <div class="col-md-6">
@@ -41,6 +60,7 @@
                 <small class="text-danger">{{ form_errors(tripForm.adress) }}</small>
             </div>
         </div>
+        <script src="{{ asset('/js/selectCityAddress.js') }}"></script>{# Function AJAX Chargerment des adresses #}
         <div class="row my-4 justify-content-around">
             <div class="col-md-6">
                 {{ form_label(tripForm.dateStart, 'Date de début') }}
@@ -105,6 +125,7 @@
         </div>
 
         <button type="submit" class="btn btn-dark">Créer</button>
+        <button type="submit" class="btn btn-dark" name="idPublish" value="1">Publier</button>
         {{ form_end(tripForm) }}
     </div>
 {% endblock %}

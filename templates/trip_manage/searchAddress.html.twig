@@ -1,0 +1,4 @@
+<option value="" selected>Selectionner une adresse</option>
+{% for address in addresses %}
+    <option value="{{ address.id }}">{{ address }}</option>
+{% endfor %}

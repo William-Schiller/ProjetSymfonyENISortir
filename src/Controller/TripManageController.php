@@ -6,6 +6,8 @@ use App\Entity\Status;
 use App\Entity\Trip;
 use App\Form\CreateTripType;
 use App\Form\UpdateManageTripType;
+use App\Repository\AdressRepository;
+use App\Repository\CityRepository;
 use App\Repository\StatusRepository;
 use App\Repository\TripRepository;
 use App\Services\Trip\TripManagerServices;
@@ -24,7 +26,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class TripManageController extends AbstractController
 {
 
-    //TODO SORTIE FORMULAIRE EN HEURE ! ou laisser le choix
     /**
      * @Route("", name="index")
      */
@@ -93,6 +94,10 @@ class TripManageController extends AbstractController
 
             $entityManager->persist($trip);
             $entityManager->flush();
+
+            if(!empty($request->get('idPublish'))){
+                return $this->redirectToRoute('tripManage_publish', ['id' => $trip->getId()]);
+            }
 
             $this->addFlash('success', 'La sortie a bien été crée'); //a afficher
 
@@ -171,4 +176,14 @@ class TripManageController extends AbstractController
         return $this->redirectToRoute('tripManage_index');
     }
 
+    /**
+     * ajax city search
+     * @Route("rechercheAdressesParVille", name="search_city")
+     */
+    public function searchCity(Request $request, AdressRepository $adressRepository) {
+
+        $cityId = $request->query->get('keyword');
+        $addresses = $adressRepository->searchByCityName($cityId);
+        return $this->render('trip_manage/searchAddress.html.twig', compact('addresses'));
+    }
 }

@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AddressController!{% endblock %}
+
+{% block body %}
+<div class="container text-center p-4 form-group">
+    <h1>Ajouter une adresse :</h1>
+    {{ form_start(addressForm) }}
+    <div class="row my-4 justify-content-around">
+        <div class="col-md-6">
+            {{ form_label(addressForm.name, 'Nom') }}
+        </div>
+        <div class="col-md-6">
+            {{ form_widget(addressForm.name, {'attr': {'class': 'form-control'}}) }}
+            <small class="text-danger">{{ form_errors(addressForm.name) }}</small>
+        </div>
+    </div>
+    <div class="row my-4 justify-content-around">
+        <div class="col-md-6">
+            {{ form_label(addressForm.city, 'Ville') }}
+        </div>
+        <div class="col-md-6">
+            {{ form_widget(addressForm.city, {'attr': {'class': 'form-control'}}) }}
+            <small class="text-danger">{{ form_errors(addressForm.city) }}</small>
+        </div>
+    </div>
+    <div class="row my-4 justify-content-around">
+        <div class="col-md-6">
+            {{ form_label(addressForm.street, 'Rue') }}
+        </div>
+        <div class="col-md-6">
+            {{ form_widget(addressForm.street, {'attr': {'class': 'form-control'}}) }}
+            <small class="text-danger">{{ form_errors(addressForm.street) }}</small>
+        </div>
+    </div>
+    <div class="row my-4 justify-content-around">
+        <div class="col-md-6">
+            {{ form_label(addressForm.latitude, 'Latitude') }}
+        </div>
+        <div class="col-md-6">
+            {{ form_widget(addressForm.latitude, {'attr': {'class': 'form-control'}}) }}
+            <small class="text-danger">{{ form_errors(addressForm.latitude) }}</small>
+        </div>
+    </div>
+    <div class="row my-4 justify-content-around">
+        <div class="col-md-6">
+            {{ form_label(addressForm.longitude, 'Longitude') }}
+        </div>
+        <div class="col-md-6">
+            {{ form_widget(addressForm.longitude, {'attr': {'class': 'form-control'}}) }}
+            <small class="text-danger">{{ form_errors(addressForm.longitude) }}</small>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-dark">Créer</button>
+    {{ form_end(addressForm) }}
+</div>
+{% endblock %}

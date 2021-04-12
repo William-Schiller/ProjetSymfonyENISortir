@@ -19,6 +19,15 @@ class AdressRepository extends ServiceEntityRepository
         parent::__construct($registry, Adress::class);
     }
 
+    public function searchByCityName($cityId){
+        return $this->createQueryBuilder('a')
+            ->innerJoin('a.city', 'c')
+            ->where('c.id = :cityId')
+            ->setParameter('cityId', $cityId)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     // /**
     //  * @return Adress[] Returns an array of Adress objects
     //  */
