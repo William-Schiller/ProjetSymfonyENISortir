@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Campus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +18,19 @@ class CampusRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Campus::class);
+    }
+
+//Filtre par campus
+    public function findWhereCampusWithPage($limit, $numPage, $idCampus)
+    {
+        $queryBuilder = $this->createQueryBuilder('trip')
+            ->join('trip.campus', 'camp')
+            ->where('camp.id = :idCampus')
+            ->setParameter('idCampus', $idCampus)
+            ->setMaxResults($limit)
+            ->setFirstResult(($numPage - 1) * $limit);
+        $query = $queryBuilder->getQuery();
+        return new Paginator($query);
     }
 
     // /**

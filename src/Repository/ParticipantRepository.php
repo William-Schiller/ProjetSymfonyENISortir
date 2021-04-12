@@ -7,8 +7,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
  * @method Participant|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @method Participant[]    findAll()
  * @method Participant[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ParticipantRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+class ParticipantRepository extends ServiceEntityRepository implements PasswordUpgraderInterface //UserProviderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -37,15 +39,14 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         $this->_em->flush();
     }
 
-
     public function findUser($limit, $numPage) {
         $qb = $this->createQueryBuilder('user')
             ->where('user.admin = :admin')->setParameter(':admin', 0)
             ->setMaxResults($limit)
             ->setFirstResult(($numPage-1)*$limit)
-        ;
-        $query = $qb->getQuery();
-        return new Paginator($query);
+      ;
+    $query = $qb->getQuery();
+    return new Paginator($query);
     }
 
     public function nbPages($nbLine) {
@@ -60,7 +61,6 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         dump($active);
 
         // aller dans mettre a jour le champ active dans la bdd pour le praticpant
-
     }
 
         // /**
@@ -91,4 +91,45 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         ;
     }
     */
+    public function loadUserByUsername($username)
+    {
+        $user = $this->createQueryBuilder('u')
+            ->where('u.pseudo = :pseudo')
+            ->setParameter('pseudo', $username)
+            ->orWhere('u.mail = :mail')
+            ->setParameter('mail', $username)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        if (null === $user) {
+            $message = sprintf(
+                'Unable to find an active admin AppBundle:User object identified by "%s".',
+                $username
+            );
+            throw new UsernameNotFoundException($message);
+        }
+
+        return $user;
+    }
+
+    public function refreshUser(UserInterface $user)
+    {
+        $class = get_class($user);
+        if (!$this->supportsClass($class)) {
+            throw new UnsupportedUserException(
+                sprintf(
+                    'Instances of "%s" are not supported.',
+                    $class
+                )
+            );
+        }
+        return $this->find($user->getId());    }
+
+    public function supportsClass($class)
+    {
+        {
+            return $this->getEntityName() === $class
+                || is_subclass_of($class, $this->getEntityName());
+        }    }
+
 }
