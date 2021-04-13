@@ -72,6 +72,14 @@ class TripRepository extends ServiceEntityRepository
             ->select('camp', 'trips')
             ->join('trips.campus', 'camp');
 
+        if (!empty($search->subscribedTo)){
+            $query = $query
+                ->join('trips.inscription', 'inscpt')
+                ->andWhere('inscpt.participant = :idCurrentUser')
+                ->setParameter('idCurrentUser', $idCurrentUser);
+
+        }
+
         if (!empty($search->search)){
             $query = $query
                 ->andWhere('trips.name LIKE :search')
@@ -90,12 +98,14 @@ class TripRepository extends ServiceEntityRepository
                 ->setParameter('dateMax', $search->dateMax);
         }
 
-        /*if (!empty($search->isOrganizer)){
+        if (!empty($search->isOrganizer)){
             $query = $query
-                ->where('trips.promoter = :idCurrentUser')
+                ->andWhere('trips.promoter = :idCurrentUser')
                 ->setParameter('idCurrentUser', $idCurrentUser);
 
-        }*/
+        }
+
+
 
         return $query->getQuery()->getResult();
    }

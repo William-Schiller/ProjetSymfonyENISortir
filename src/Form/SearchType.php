@@ -36,6 +36,7 @@ class SearchType extends AbstractType
         ])
         ->add('dateMin', DateType::class, [
             'label' => 'Entre le',
+            'required' => false,
             'format' => 'dd/MM/yyyy',
             'attr' => [
                 'class' => 'date_picker'
@@ -43,6 +44,7 @@ class SearchType extends AbstractType
         ])
         ->add('dateMax', DateType::class, [
             'label' => 'et le',
+            'required' => false,
             'format' => 'dd/MM/yyyy'
         ])
 

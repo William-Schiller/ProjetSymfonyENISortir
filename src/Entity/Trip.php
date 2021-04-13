@@ -82,6 +82,29 @@ class Trip
      */
     private $promoter;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Inscription::class, mappedBy="trip")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $inscription;
+
+    /**
+     * @return mixed
+     */
+    public function getInscription()
+    {
+        return $this->inscription;
+    }
+
+    /**
+     * @param mixed $inscription
+     */
+    public function setInscription($inscription): void
+    {
+        $this->inscription = $inscription;
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;
