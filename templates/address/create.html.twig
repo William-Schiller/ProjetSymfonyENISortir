@@ -1,5 +1,12 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    {# TODO TEST DEBUT #}
+    <script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
+    {# TODO TEST FIN #}
+{% endblock %}
+
 {% block title %}Hello AddressController!{% endblock %}
 
 {% block body %}
@@ -54,5 +61,63 @@
 
     <button type="submit" class="btn btn-dark">Créer</button>
     {{ form_end(addressForm) }}
+
+    {# TODO TEST MAP #}
+
+    <div id="map" class="mapClass">
+
+    </div>  <button id="MAJLatLng">MAJ</button> {# TODO TEST #}
+
+    <script>
+        //Recuperer le nom de la ville pour affichage map 'id : address_city'
+        let citySelect = document.getElementById("address_city");
+        let streetSelect = document.getElementById("address_street");
+        let cityNameSelected = citySelect.options[citySelect.options.selectedIndex].text
+        citySelect.addEventListener("change", collectCity)
+        streetSelect.addEventListener("change", collectCity)
+        document.getElementById("MAJLatLng").addEventListener("click", showMap)// **** TEST ****
+
+        function collectCity(){
+            cityNameSelected = citySelect.options[citySelect.options.selectedIndex].text
+                + " " + streetSelect.value; //citySelect.options[citySelect.selectIndex].text;
+            geocoder.query(cityNameSelected, showMap);
+        }
+
+
+        L.mapbox.accessToken = 'pk.eyJ1Ijoid2lsbGlhbXNjaGlsbGVyIiwiYSI6ImNrbmVvM25zbjB6enIyem83bTU4YTg0ejgifQ.xENX6fDU5_itArRo11KU1g';
+
+        var geocoder = L.mapbox.geocoder('mapbox.places');
+
+        var map = L.mapbox.map('map')
+            .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
+
+        //géolocaliser avec recherche
+        geocoder.query(cityNameSelected, showMap);
+
+        function showMap(err, data) {
+            let latitudeInput = document.getElementById("address_latitude");
+            let longitudeInput = document.getElementById("address_longitude");
+
+            // The geocoder can return an area, like a city, or a
+            // point, like an address. Here we handle both cases,
+            // by fitting the map bounds to an area or zooming to a point.
+            if (data.lbounds) {
+                map.fitBounds(data.lbounds);
+            } else if (data.latlng) {
+                map.setView([data.latlng[0], data.latlng[1]], 13);
+            }
+
+            let collectLatitude = data.latlng[0];
+            latitudeInput.value = collectLatitude;
+            let collectLongitude = data.latlng[1];
+            longitudeInput.value = collectLongitude;
+
+            console.log(collectLatitude);
+            console.log(collectLongitude);
+        }
+
+    </script>
+
+    {# TODO TEST MAP #}
 </div>
 {% endblock %}
