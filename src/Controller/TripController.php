@@ -8,6 +8,7 @@ use App\Entity\Campus;
 use App\Form\SearchType;
 use App\Repository\CampusRepository;
 use App\Repository\TripRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,9 +25,8 @@ class TripController extends AbstractController
     /**
      * @Route("{numPage}", requirements={"numPage":"\d+"}, defaults={"numPage":"1"}, name="list", methods={"GET", "POST"})
      */
-    public function list($numPage, Request $request, TripRepository $tripRepo)
+    public function list($numPage, Request $request, TripRepository $tripRepo )
     {
-
         $nbLines = 10;
         $nbPages = $tripRepo->nbPages($nbLines);
 
@@ -34,6 +34,7 @@ class TripController extends AbstractController
         $form = $this->createForm(SearchType::class, $data);
         $form->handleRequest($request);
         $formSearch = $form->createView();
+
 
         $trips = $tripRepo->findSearch($data, $this->getUser()->getId());
 

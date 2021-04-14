@@ -3,5 +3,11 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-<h1>hello World !</h1>
+    <div align="center">
+        <h1 style="margin-top: 200px">BIENVENUE
+            {% if app.user %}
+                    {{ app.user.pseudo }}
+            {% endif %} </h1>
+        <h2 style="margin-top: 50px"> Vous êtes sur le site dédié à l'organistion des sorties de l'ENI.</h2>
+    </div>
 {% endblock %}

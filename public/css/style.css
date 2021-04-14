@@ -1,22 +1,27 @@
 header {
     margin-bottom: 0px;
+    height: 10vh;
+
 }
 
 .bgBody {
+    width: auto;
     margin: 0px;
-    background: url("../img/bg.png");
-    background-repeat: no-repeat;
+    padding-bottom: 10px;
+    background: url("../img/bg.png") no-repeat ;
     background-size: cover;
+    height: 80vh;
+
 }
 
 .bgContainer {
     background-color: rgba(255,255,255,0.9);
     border-radius: 15px;
-    margin-left: 10%;
-    margin-right: 10%;
-    height: 100%;
+    margin-bottom: 80px;
+    height: 99%;
     width: 80%;
     overflow-x: scroll;
+
 }
 
 .logoNav {
@@ -32,8 +37,8 @@ header {
 footer {
     position: relative;
     bottom: 0;
-    height: 10%;
-    width: 100%;
+    height: 10vh;
+    width: auto;
 
 }
 
@@ -41,4 +46,7 @@ img {
     max-width: 100%;
     height: auto;
     display: block;
+}
+.pictureProfil{
+
 }

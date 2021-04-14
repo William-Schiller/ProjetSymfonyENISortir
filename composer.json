@@ -10,6 +10,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.8",
         "fakerphp/faker": "^1.14",
+        "knplabs/knp-paginator-bundle": "^5.4",
         "sensio/framework-extra-bundle": "^6.1",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "4.4.*",
