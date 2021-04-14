@@ -10,6 +10,7 @@ use App\Repository\CampusRepository;
 use App\Repository\TripRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,7 +27,7 @@ class TripController extends AbstractController
     /**
      * @Route("{numPage}", requirements={"numPage":"\d+"}, defaults={"numPage":"1"}, name="list", methods={"GET", "POST"})
      */
-    public function list($numPage, Request $request, TripRepository $tripRepo)
+    public function list($numPage, Request $request, TripRepository $tripRepo, PaginatorInterface $paginator)
     {
         $nbLines = 10;
         $nbPages = $tripRepo->nbPages($nbLines);
@@ -36,7 +37,15 @@ class TripController extends AbstractController
         $form->handleRequest($request);
         $formSearch = $form->createView();
 
-        $trips = $tripRepo->findSearch($data, $this->getUser()->getId());
+        $event = $tripRepo->findSearch($data, $this->getUser()->getId());
+
+        $trips = $paginator
+            ->paginate($event, $request->query
+                ->getInt('page',1),
+                10
+            );
+
+
 
         return $this->render('trip/index.html.twig', compact('trips', 'numPage',
             'nbPages', 'formSearch'));
