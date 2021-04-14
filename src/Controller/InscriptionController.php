@@ -52,7 +52,7 @@ class InscriptionController extends AbstractController
         /*
          * Verifier que l'ustilisateur ne soit pas inscrit ou qu'il ne soit pas l'organisteur
          */
-        if($this->getUser() == $trip->getPromoter() || !empty($inscriptionRepository->findByParticipantAndTrip($this->getUser(), $trip))){
+        if(!empty($inscriptionRepository->findByParticipantAndTrip($this->getUser(), $trip))){
             $this->addFlash('danger', 'Vous ne pouvez pas vous inscrire plus d\'une fois à une sortie');
             return $this->render('home/index.html.twig'); //TODO changer route
         }

@@ -28,13 +28,13 @@
                 <td>{{ trip.status.name }}</td>
                 <td>
                     {% if trip.status.name == 'Create' or trip.status.name == 'Active' %}
-                        <a href="{{ path('tripManage_update', {'id': trip.id}) }}"><button class="btn btn-secondary">Modifier</button></a>
+                        <a href="{{ path('tripManage_update', {'id': trip.id}) }}"><button class="btn btn-outline-secondary">Modifier</button></a>
                         {% if trip.status.name == 'Create' %}
-                            <a href="{{ path('tripManage_publish', {'id': trip.id}) }}"><button class="btn btn-success">Publier</button></a>
-                            <a href="{{ path('tripManage_delete', {'id': trip.id}) }}"><button class="btn btn-danger">Supprimer</button></a>
+                            <a href="{{ path('tripManage_publish', {'id': trip.id}) }}"><button class="btn btn-outline-success">Publier</button></a>
+                            <a href="{{ path('tripManage_delete', {'id': trip.id}) }}"><button class="btn btn-outline-danger">Supprimer</button></a>
                         {% else %}
-                            <a id="{{ trip.name }}_{{ trip.id }}"><button class="btn btn-info">Afficher</button></a>
-                            <a href="{{ path('tripManage_cancel', {'id': trip.id}) }}"><button class="btn btn-warning">Annuler</button></a>
+                            <a id="{{ trip.name }}_{{ trip.id }}"><button class="btn btn-outline-info">Afficher</button></a>
+                            <a href="{{ path('tripManage_cancel', {'id': trip.id}) }}"><button class="btn btn-outline-warning">Annuler</button></a>
                         {# TODO TEST AFFICHAGE DYNAMIQUE #}
                         <script>
                             document.getElementById("{{ trip.name }}_{{ trip.id }}").addEventListener('click', postDetail);
@@ -51,6 +51,8 @@
                                 detail += "<p>Nom de la sortie : {{ trip.name }} à {{ trip.adress.city.name }}, {{ trip.adress.name }}<p>";
                                 detail += "<p>Date : {{ trip.dateStart|date('d/m/Y H:m') }}<span id='countdown_{{ trip.id }}'></span></p>";
                                 detail += "<p>Nombre de place : {{ trip.inscription|length }}/{{ trip.nbMaxRegistration }}<p>";
+
+                                detail += "<a href='{{ path('trip_detail_trip', {'id': trip.id}) }}'><button  class='btn btn-success'>Afficher les details</button></a>";
 
                                 detail += "</div></div><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
 

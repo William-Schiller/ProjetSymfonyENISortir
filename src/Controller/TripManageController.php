@@ -26,20 +26,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TripManageController extends AbstractController
 {
-
-    // TODO temporaire test pour page détail :
-            /**
-             * @Route(path="sortieDetail/{id}", requirements={"id":"\d+"}, name="detail_trip")
-             */
-            public function detailTrip(Request $request, TripRepository $tripRepository)
-            {
-                $id = $request->get('id');
-
-                $trip = $tripRepository->findOneBy(['id' => $id]);
-
-                return $this->render('trip/detail.html.twig', compact('trip'));
-            }
-
     /**
      * @Route("", name="index")
      */

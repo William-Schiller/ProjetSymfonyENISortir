@@ -1,6 +1,6 @@
 header {
     margin-bottom: 0px;
-    height: 10vh;
+    /*height: 10vh;*/
 
 }
 
@@ -10,7 +10,7 @@ header {
     padding-bottom: 10px;
     background: url("../img/bg.png") no-repeat ;
     background-size: cover;
-    height: 80vh;
+    /*height: 80vh;*/
 
 }
 
@@ -34,6 +34,15 @@ header {
     border: 2px #223dac solid;
 }
 
+.markerMap {
+    width: 40px;
+    position: absolute;
+    left: 50%;
+    transform: translateY(+110px);
+    z-index: 1;
+
+}
+
 footer {
     position: relative;
     bottom: 0;
@@ -46,7 +55,4 @@ img {
     max-width: 100%;
     height: auto;
     display: block;
-}
-.pictureProfil{
-
 }

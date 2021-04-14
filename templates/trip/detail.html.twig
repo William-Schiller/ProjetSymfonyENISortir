@@ -17,9 +17,9 @@
         <div class="col-md-4">
             <h2>Liste des participants : {{ trip.inscription|length }}/{{ trip.nbMaxRegistration }}</h2>
             {% for inscpt in trip.inscription %}
-               <p class="font-weight-bold"><a href="">{{ inscpt.participant.pseudo }}</a></p>
+               <p class="font-weight-bold"><a href="{{ path('profilePaticipant_showParticipant_', {'id': inscpt.participant.id}) }}">{{ inscpt.participant.pseudo }}</a></p>
             {% endfor %}
-            <h2>Carte :</h2>
+            <h2 class="mt-5">Carte :</h2>
             <div id="map" class="mapClass"></div>
             <script>
                 let lat = {{ trip.adress.latitude }};

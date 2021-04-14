@@ -39,7 +39,12 @@
             <small class="text-danger">{{ form_errors(addressForm.street) }}</small>
         </div>
     </div>
-    <div id="map" class="mapClass"></div>
+    <div>
+        <div class="markerMap">
+            <img src="{{ asset('/img/markerIcon.png') }}" alt="marker">
+        </div>
+        <div id="map" class="mapClass"></div>
+    </div>
     <small>deplacer la map pour changer les coordonnées du lieu</small>
     <div class="row my-4 justify-content-around">
         <div class="col-md-6">
