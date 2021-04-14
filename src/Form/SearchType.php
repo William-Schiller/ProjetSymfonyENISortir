@@ -7,6 +7,7 @@ namespace App\Form;
 use App\Data\SearchData;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -41,24 +42,19 @@ class SearchType extends AbstractType
                 'required' => false,
                 'widget' => 'single_text',
             ])
-            ->add('isOrganizer', ChoiceType::class, [
-                'choices' => [
-                    ' Sorties dont je suis l\'organisateur/trice' => ' Sorties dont je suis l\'organisateur/trice',
-                ],
-                'placeholder' => false,
-                'expanded' => true,
-                'required' => false,
-
+            ->add('isOrganizer', CheckboxType::class,[
+                'label' => ' Sorties dont je suis l\'organisateur/trice ',
+                'required' => false
             ])
-            ->add('subscribedTo', ChoiceType::class, [
-                'choices' => [
-                    'Sorties auxquelles je suis inscrit/e' => "1",
-                    //'Sorties auxquelles je ne suis pas inscrit/e' => "2",
-                ],
-                'placeholder' => false,
-                'expanded' => true,
-                'required' => false,
-            ]);
+            ->add('subscribedTo', CheckboxType::class, [
+                'label' => ' Sorties auxquelles je suis inscrit/e ',
+                'required' => false
+            ])
+            ->add('insubscribedTo', CheckboxType::class, [
+                'label' => ' Sorties auxquelles je ne suis pas inscrit/e ',
+                'required' => false
+    ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

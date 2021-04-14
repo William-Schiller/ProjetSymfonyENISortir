@@ -12,52 +12,55 @@
         </div>
     </div>
 
-
-    {% include 'trip/filter.html.twig' with {formSearch: formSearch} only %}
-
-
     <div class="container-fluid">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">CAMPUS</th>
-                <th scope="col">NOM DE LA SORTIE</th>
-                <th scope="col">DATE DE LA SORTIE</th>
-                <th scope="col">CLOTURES</th>
-                <th scope="col">INSCRITS/PLACES</th>
-                <th scope="col">ETAT</th>
-                <th scope="col">INSCRIT</th>
-                <th scope="col">ORGANISATEUR</th>
-                <th scope="col">ACTIONS</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for trip in trips %}
-                <tr>
-                    <td>{{ trip.campus.name }}</td>
-                    <td>{{ trip.name }}</td>
-                    <td>{{ trip.dateStart|date("d/m/Y") }}</td>
-                    <td>{{ trip.dateLimitInscription|date("d/m/Y") }}</td>
-                    <td>{{ trip.duration }}</td>
-                    <td>{{ trip.status }}</td>
-                    <td>{{ "X" }}</td>
-                    <td>{{ trip.promoter }}</td>
-                    <td>{{ trip.informationTrip }}
-                        {# TODO SUPPRIMER #}
-                        {% if app.user != trip.promoter %}
-                            <a href="{{ path('inscription_register', {'id': trip.id }) }}">S'inscrire</a>
-                        {% endif %}
-                        {# TODO JUSQUE LA #}
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        {# display navigation #}
-        <div class="navigation row justify-content-center">
-            {{ knp_pagination_render(trips) }}
+        <div class="row">
+            <div class="col-md-4 pr-0 h-100">
+                {% include 'trip/filter.html.twig' with {formSearch: formSearch} only %}
+            </div>
+            <div class="col-md-8">
+                <div class="container-fluid container text-center p-4 form-group form-control ">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">CAMPUS</th>
+                            <th scope="col">NOM DE LA SORTIE</th>
+                            <th scope="col">DATE DE LA SORTIE</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for trip in trips %}
+                            <tr>
+                                <td>{{ trip.campus.name }}</td>
+                                <td>{{ trip.name }}</td>
+                                <td>{{ trip.dateStart|date("d/m/Y") }}</td>
+                                <td> <a href="{{ path('trip_detail_trip', {'id': trip.id }) }}"><button class="btn btn-outline-info">Afficher</button></a>
+                                </td>
+                                {# TODO SUPPRIMER #}
+                                <td>    {% if app.user != trip.promoter %}
+                                        <a href="{{ path('inscription_register', {'id': trip.id }) }}"><button class="btn btn-outline-info">S'inscrire</button></a>
+                                    {% endif %}
+                                    {# TODO JUSQUE LA #}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {# display navigation #}
+                    <div class="navigation row justify-content-center">
+                        {{ knp_pagination_render(trips) }}
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
+
+
+
+
+
 
 {% endblock %}
 

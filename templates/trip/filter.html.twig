@@ -1,70 +1,44 @@
-<div class="align-content-center">
-<div class="container text-center p-4 form-group form-control ">
-    <h3>Rechercher une sortie :</h3>
-    {{ form_start(formSearch) }}
-    <div class="row my-4 justify-content-around">
-        <div class="col-md-6">
-            {{ form_label(formSearch.campus, 'Campus') }}
-        </div>
-        <div class="col-md-6">
-            {{ form_widget(formSearch.campus, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="col-md-6" >
-            {{ form_row(formSearch.campus) }}
-        </div>
-    </div>
-    <div class="row my-4 justify-content-around">
-        <div class="col-md-6">
-            {{ form_label(formSearch.dateMin, 'Entre le') }}
-        </div>
-        <div class="col-md-6">
-            {{ form_widget(formSearch.dateMin, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-6">
-                    {{ form_widget(formSearch.dateMin) }}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row my-4 justify-content-around">
-        <div class="col-md-6">
-            {{ form_label(formSearch.dateMax, 'Et le') }}
-        </div>
-        <div class="col-md-6">
-            {{ form_widget(formSearch.dateMax, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-6">
-                    {{ form_widget(formSearch.dateMax) }}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row my-4 justify-content-around ">
-        <div class="col-md-6">
-            {{ form_label(formSearch.search, 'Rechercher') }}
-        </div>
-        <div class="col-md-6">
+{{ form_start(formSearch) }}
+
+<div class="m-0 align-content-center">
+    <div class="container text-center p-4 form-group form-control ">
+        <h3>Rechercher une sortie :</h3>
+
+        <div class="row my-4 justify-content-around ">
             {{ form_widget(formSearch.search, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="col-md-6">
             {{ form_row(formSearch.search) }}
         </div>
-    </div>
-    <div class="row my-4 justify-content-around">
-        <div class="col-md-6">
-            {{ form_widget(formSearch.isOrganizer) }}
-            {{ form_widget(formSearch.subscribedTo) }}
+
+        <div class="row my-4 justify-content-around">
+            {{ form_widget(formSearch.campus, {'attr': {'class': 'form-control text-center'}}) }}
+            {{ form_row(formSearch.campus) }}
+        </div>
+        <div class="row my-4 justify-content-around">
+            <div class="col-md-6">
+                {{ form_label(formSearch.dateMin, 'Entre le') }}
+                {{ form_widget(formSearch.dateMin, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(formSearch.dateMin) }}
+            </div>
+            <div class="col-md-6">
+            {{ form_label(formSearch.dateMax, 'Et le') }}
+            {{ form_widget(formSearch.dateMax, {'attr': {'class': 'form-control'}}) }}
+            {{ form_widget(formSearch.dateMax) }}
+            </div>
+        </div>
+        <div class="row my-4 justify-content-start custom-control">
+            {{ form_widget(formSearch.isOrganizer) }}{{ form_label(formSearch.isOrganizer) }}
+            <div class="row my-4 justify-content-start custom-control">
+            {{ form_widget(formSearch.subscribedTo) }}{{ form_label(formSearch.subscribedTo) }}
+            </div>
+            <div class="row my-4 justify-content-start custom-control">
+                {{ form_widget(formSearch.insubscribedTo) }}{{ form_label(formSearch.insubscribedTo) }}
+            </div>
+        </div>
+        <div class="row my-4 justify-content-around">
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-outline-success w30">Filtrer</button>
+            </div>
         </div>
     </div>
-    <div class="row my-4 justify-content-around">
-        <div class="col-md-6">
-            <button type="submit" class="btn btn-outline-success w30">Filtrer</button>
-        </div>
-    </div>
-</div>
 </div>
 {{ form_end(formSearch) }}

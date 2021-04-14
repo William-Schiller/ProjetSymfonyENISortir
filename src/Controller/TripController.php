@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Data\SearchData;
 use App\Entity\Campus;
+use App\Entity\Inscription;
 use App\Form\SearchType;
 use App\Repository\CampusRepository;
 use App\Repository\TripRepository;

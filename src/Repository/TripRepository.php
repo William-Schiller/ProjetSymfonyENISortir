@@ -77,8 +77,9 @@ class TripRepository extends ServiceEntityRepository
             ->select('camp', 'trips')
             ->join('trips.campus', 'camp');
 
+
         //ChoicesType si l'utilisateur est inscrit
-        if (($search->subscribedTo) == 1) {
+        if ($search->subscribedTo) {
             $query = $query
                 ->join('trips.inscription', 'inscpt')
                 ->andWhere('inscpt.participant = :idCurrentUser')
@@ -87,14 +88,13 @@ class TripRepository extends ServiceEntityRepository
 
         //aller récupérer la list des id de toutes les sorties auxquelles le participant est inscrit
         //utiliser la liste dans un not in dans la requête (NOT IN)
-        /*if (($search->subscribedTo) == 2) {
+        if ($search->insubscribedTo) {
             $query = $query
-                ->join('trips.inscription', 'inscpt')
-                ->andWhere('inscpt.participant != :idCurrentUser')
-                ->andWhere('inscpt.participant NOT IN (:inscription')
-                ->setParameter('idCurrentUser', $idCurrentUser);
-        }*/
-
+                ->join('trips.inscription', 'idInscription')
+                ->andWhere('idInscription.participant = :idCurrentUser')
+                ->andWhere('idCurrentUser NOT IN  (:inscription)')
+                ->setParameter('insubscribedTo', $search->insubscribedTo);
+        }
 
         if (!empty($search->search)) {
             $query = $query
@@ -127,9 +127,6 @@ class TripRepository extends ServiceEntityRepository
                 ->setParameter('idCurrentUser', $idCurrentUser);
 
         }
-
-
-        //nbPage, a la fin de la création des filtres, executer la requete sans limiter le nombre de resultat
 
         return $query->getQuery()->getResult();
     }
