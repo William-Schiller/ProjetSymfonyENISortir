@@ -22,6 +22,11 @@ class Status
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="string", length=25, nullable=true)
+     */
+    private $frenchName;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -42,6 +47,18 @@ class Status
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getFrenchName(): ?string
+    {
+        return $this->frenchName;
+    }
+
+    public function setFrenchName(?string $frenchName): self
+    {
+        $this->frenchName = $frenchName;
+
+        return $this;
     }
 
 

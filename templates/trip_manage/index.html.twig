@@ -25,7 +25,7 @@
         {% for trip in trips %}
             <tr>
                 <td><a href="">{{ trip.name }}</a></td>
-                <td>{{ trip.status.name }}</td>
+                <td>{{ trip.status.frenchName }}</td>
                 <td>
                     {% if trip.status.name == 'Create' or trip.status.name == 'Active' %}
                         <a href="{{ path('tripManage_update', {'id': trip.id}) }}"><button class="btn btn-outline-secondary">Modifier</button></a>
@@ -99,8 +99,6 @@
                                 }
 
                             }
-
-
                         </script>
                         {# TODO fin #}
                         {% endif %}
@@ -111,5 +109,8 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="navigation row justify-content-center">
+        {{ knp_pagination_render(trips) }}
+    </div>
 
 {% endblock %}

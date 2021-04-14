@@ -13,6 +13,7 @@ use App\Repository\StatusRepository;
 use App\Repository\TripRepository;
 use App\Services\Trip\TripManagerServices;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,10 +30,16 @@ class TripManageController extends AbstractController
     /**
      * @Route("", name="index")
      */
-    public function index(TripRepository $tripRepository): Response
+    public function index(Request $request, TripRepository $tripRepository, PaginatorInterface $paginator): Response
     {
 //        $trips = $tripRepository->findBy(['promoter'=>$this->getUser()]);
-        $trips = $tripRepository->findMyTripsNotInProgress($this->getUser());
+        $events = $tripRepository->findMyTripsNotInProgress($this->getUser());
+
+        $trips = $paginator
+            ->paginate($events, $request->query
+                ->getInt('page',1),
+                10
+            );
 
         return $this->render('trip_manage/index.html.twig', compact('trips'));
     }

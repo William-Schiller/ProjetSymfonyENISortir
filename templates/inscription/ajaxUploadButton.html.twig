@@ -1,0 +1,11 @@
+{% if trip.status.name == 'Active' or trip.status.name == 'Closure' %}
+    {% if inscribed %}
+        <a href="{{ path('inscription_unsubscribe', {'id': trip.id}) }}"><button class="btn btn-danger">Se désinscrire</button></a>
+    {% else %}
+        {% if places and trip.status.name != 'Closure'%}
+            {% if trip.dateLimitInscription > date('now') %}
+                <a href="{{ path('inscription_register', {'id': trip.id}) }}"><button class="btn btn-success">S'inscrire</button></a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endif %}

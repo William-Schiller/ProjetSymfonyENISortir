@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Inscription;
 use App\Repository\InscriptionRepository;
+use App\Repository\ParticipantRepository;
 use App\Repository\TripRepository;
 use App\Services\Inscription\InscriptionServices;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,57 +26,35 @@ class InscriptionController extends AbstractController
     public function register($id, EntityManagerInterface $entityManager, TripRepository $tripRepository,
                         InscriptionRepository $inscriptionRepository, InscriptionServices $inscriptionServices)
     {
-
-        /*
-         *Code a copier :
-         * Dans index.html de Trip :
-         *
-                        <td>{{ "Afficher" }}
-                        {# TODO SUPPRIMER #}
-                        {% if app.user != trip.promoter %}
-                            <a href="{{ path('inscription_register', {'id': trip.id }) }}">S'inscrire</a>
-                        {% endif %}
-                        {# TODO JUSQUE LA #}
-                    </td>
-                </tr>
-            {% endfor %}
-         *
-         * Code original
-         *          <td>{{ trip.promoter }}</td>
-         *       <td>{{ "Afficher" }}</td>
-         *  </tr>
-         *{% endfor %}
-         */
-
         $trip = $tripRepository->findOneBy(['id' => $id]);
 
         /*
-         * Verifier que l'ustilisateur ne soit pas inscrit ou qu'il ne soit pas l'organisteur
+         * Verifier que l'ustilisateur ne soit pas inscrit
          */
         if(!empty($inscriptionRepository->findByParticipantAndTrip($this->getUser(), $trip))){
             $this->addFlash('danger', 'Vous ne pouvez pas vous inscrire plus d\'une fois à une sortie');
-            return $this->render('home/index.html.twig'); //TODO changer route
+            return $this->redirectToRoute('trip_detail_trip', ['id' => $trip->getId()]);
         }
         /*
          * Verifier la date limite d'inscription
          */
         if($trip->getDateLimitInscription()<new \DateTime('now')){
             $this->addFlash('danger', 'La date limite d\'inscription à cette sortie est dépassée');
-            return $this->render('home/index.html.twig'); //TODO changer route
+            return $this->redirectToRoute('trip_detail_trip', ['id' => $trip->getId()]);
         }
         /*
          * Verifier le status de la sortie
          */
         if($trip->getStatus()->getName() != 'Active' ){
             $this->addFlash('danger', 'Le status de la sortie ne permet pas l\'inscription');
-            return $this->render('home/index.html.twig'); //TODO changer route
+            return $this->redirectToRoute('trip_detail_trip', ['id' => $trip->getId()]);
         }
         /*
          * Verifier qu'il reste de la place
          */
         if(!$inscriptionServices->checkPlaces($trip, $inscriptionRepository)){
             $this->addFlash('danger', 'Impossible : le nombre maximum de participants est atteint');
-            return $this->redirectToRoute('trip_list');
+            return $this->redirectToRoute('trip_detail_trip', ['id' => $trip->getId()]);
         }
 
         $inscription = new Inscription();
@@ -88,25 +67,78 @@ class InscriptionController extends AbstractController
 
         $this->addFlash('success', 'Vous êtes inscrit à la sortie "' . $trip->getName() . '"');
 
-        return $this->render('inscription/index.html.twig', [
-            'controller_name' => 'InscriptionController',
-        ]); //TODO Une bonne route
+        return $this->redirectToRoute('trip_detail_trip', ['id' => $trip->getId()]);
     }
 
     /**
-     * @Route("/rechercherSiInscris", name="searchIfInscripted")
+     * @Route("/seDesinscrire/{id}", requirements={"id":"\d+"}, name="unsubscribe")
      */
-    public function searchIfInscripted(Request $request, InscriptionRepository $inscriptionRepository, TripRepository $tripRepository) {
-    //TODO MARCHE PAS DU TOUT
-//        $check = false;
-//
-//        $trip = $tripRepository->findOneBy(['id' => $idTrip]);
-//        $inscription = $inscriptionRepository->findByParticipantAndTrip($this->getUser(), $trip);
-//
-//        if(!empty($inscription)){
-//            $check = true;
-//        }
-//        return $check;
+    public function unsubscribe($id, EntityManagerInterface $entityManager, TripRepository $tripRepository,
+                             InscriptionRepository $inscriptionRepository)
+    {
+        $trip = $tripRepository->findOneBy(['id' => $id]);
+
+        /*
+         * Verifier que l'ustilisateur soit inscrit
+         */
+        if(empty($inscriptionRepository->findByParticipantAndTrip($this->getUser(), $trip))){
+            $this->addFlash('danger', 'Vous ne participez pas à cette sortie');
+            return $this->redirectToRoute('trip_detail_trip', ['id' => $trip->getId()]);
+        }
+        /*
+         * Verifier la date limite de debut
+         */
+        if($trip->getDateStart()<new \DateTime('now')){
+            $this->addFlash('danger', 'La sortie à déjà démarrée');
+            return $this->redirectToRoute('trip_detail_trip', ['id' => $trip->getId()]);
+        }
+        /*
+         * Verifier le status de la sortie
+         */
+        if($trip->getStatus()->getName() != 'Active' && $trip->getStatus()->getName() != 'Closure'){
+            $this->addFlash('danger', 'Le status de la sortie ne permet pas la désinscription');
+            return $this->redirectToRoute('trip_detail_trip', ['id' => $trip->getId()]);
+        }
+
+
+        $inscription = $inscriptionRepository->findByParticipantAndTrip($this->getUser(), $trip);
+
+        $entityManager->remove($inscription);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Vous n\'êtes plus inscrit à la sortie "' . $trip->getName() . '"');
+
+        return $this->redirectToRoute('trip_detail_trip', ['id' => $trip->getId()]);
+    }
+
+
+    /**
+     * ajax uploadInscriptionButton
+     * @Route("/ChargerLesBouttonsInscriptions", name="ajax_upload_button_inscription")
+     */
+    public function ajaxUploadButtonInscription(Request $request, TripRepository $tripRepository,
+                                                ParticipantRepository $participantRepository){
+        $inscribed = false;
+
+        $userId = $request->query->get('userId');
+        $tripId = $request->query->get('tripId');
+
+        $user = $participantRepository->findOneBy(['id'=>$userId]);
+        $trip = $tripRepository->findOneBy(['id'=>$tripId]);
+
+        foreach($trip->getInscription() as $inscription) {
+            if($inscription->getParticipant() == $user){
+                $inscribed = true;
+                break;
+            }
+        }
+
+        $places = true;
+        if(sizeof($trip->getInscription()) >= $trip->getNbMaxRegistration()){
+            $places = false;
+        }
+
+        return $this->render('inscription/ajaxUploadButton.html.twig', compact('inscribed', 'trip', 'places'));
     }
 
 }
