@@ -51,9 +51,12 @@
             <div class="col-md-6">
                 {{ form_label(tripForm.adress, 'Adresse') }}
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 {{ form_widget(tripForm.adress, {'attr': {'class': 'form-control'}}) }}
                 <small class="text-danger">{{ form_errors(tripForm.adress) }}</small>
+            </div>
+            <div class="col-md-2">
+                <a href="{{ path('address_create', {'createTrip': true }) }}" class="btn btn-success">Ajouter</a>
             </div>
         </div>
         <script src="{{ asset('/js/selectCityAddress.js') }}"></script>{# Function AJAX Chargerment des adresses #}

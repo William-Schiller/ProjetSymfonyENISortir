@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class AddressController
  * @package App\Controller
  *
- * @Route("adresse", name="address")
+ * @Route("adresse", name="address_")
  */
 class AddressController extends AbstractController
 {
@@ -23,6 +23,11 @@ class AddressController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $createTrip = "";
+        if(!empty($request->get('createTrip'))){
+            $createTrip = $request->get('createTrip');
+        }
+
         $address = new Adress();
         $form = $this->createForm(AddressType::class, $address);
 
@@ -35,9 +40,13 @@ class AddressController extends AbstractController
 
             $this->addFlash('success', 'l\'adresse a bien été enregistré'); //a afficher
 
+            if(!empty($createTrip)){
+                return $this->redirectToRoute('tripManage_create');
+            }
+
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('address/create.html.twig', ['addressForm' => $form->createView()]);
+        return $this->render('address/create.html.twig', ['addressForm' => $form->createView(), 'createTrip' => $createTrip]);
     }
 }

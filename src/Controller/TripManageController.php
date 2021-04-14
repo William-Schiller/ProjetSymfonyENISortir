@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Inscription;
 use App\Entity\Status;
 use App\Entity\Trip;
 use App\Form\CreateTripType;
@@ -25,6 +26,19 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TripManageController extends AbstractController
 {
+
+    // TODO temporaire test pour page détail :
+            /**
+             * @Route(path="sortieDetail/{id}", requirements={"id":"\d+"}, name="detail_trip")
+             */
+            public function detailTrip(Request $request, TripRepository $tripRepository)
+            {
+                $id = $request->get('id');
+
+                $trip = $tripRepository->findOneBy(['id' => $id]);
+
+                return $this->render('trip/detail.html.twig', compact('trip'));
+            }
 
     /**
      * @Route("", name="index")
@@ -92,14 +106,19 @@ class TripManageController extends AbstractController
             $trip->setStatus($statusRepository->findOneBy(['name' => 'Create']));
             $trip->setPromoter($this->getUser());
 
+            $inscription = new Inscription();
+            $inscription->setParticipant($this->getUser());
+            $inscription->setTrip($trip);
+
             $entityManager->persist($trip);
+            $entityManager->persist($inscription);
             $entityManager->flush();
 
             if(!empty($request->get('idPublish'))){
                 return $this->redirectToRoute('tripManage_publish', ['id' => $trip->getId()]);
             }
 
-            $this->addFlash('success', 'La sortie a bien été crée'); //a afficher
+            $this->addFlash('success', 'La sortie a bien été crée');
 
             return $this->redirectToRoute('tripManage_index');
         }

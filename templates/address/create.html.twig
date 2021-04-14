@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block javascripts %}
-    {# TODO TEST DEBUT #}
+    {# MapBox #}
     <script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
     <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
-    {# TODO TEST FIN #}
 {% endblock %}
 
 {% block title %}Hello AddressController!{% endblock %}
@@ -40,12 +39,14 @@
             <small class="text-danger">{{ form_errors(addressForm.street) }}</small>
         </div>
     </div>
+    <div id="map" class="mapClass"></div>
+    <small>deplacer la map pour changer les coordonnées du lieu</small>
     <div class="row my-4 justify-content-around">
         <div class="col-md-6">
             {{ form_label(addressForm.latitude, 'Latitude') }}
         </div>
         <div class="col-md-6">
-            {{ form_widget(addressForm.latitude, {'attr': {'class': 'form-control'}}) }}
+            {{ form_widget(addressForm.latitude, {'attr': {'class': 'form-control', 'readonly': 'true' }}) }}
             <small class="text-danger">{{ form_errors(addressForm.latitude) }}</small>
         </div>
     </div>
@@ -54,7 +55,7 @@
             {{ form_label(addressForm.longitude, 'Longitude') }}
         </div>
         <div class="col-md-6">
-            {{ form_widget(addressForm.longitude, {'attr': {'class': 'form-control'}}) }}
+            {{ form_widget(addressForm.longitude, {'attr': {'class': 'form-control', 'readonly': 'true'}}) }}
             <small class="text-danger">{{ form_errors(addressForm.longitude) }}</small>
         </div>
     </div>
@@ -62,20 +63,16 @@
     <button type="submit" class="btn btn-dark">Créer</button>
     {{ form_end(addressForm) }}
 
-    {# TODO TEST MAP #}
-
-    <div id="map" class="mapClass">
-
-    </div>  <button id="MAJLatLng">MAJ</button> {# TODO TEST #}
-
+    {# MAP AJAX #}
     <script>
         //Recuperer le nom de la ville pour affichage map 'id : address_city'
         let citySelect = document.getElementById("address_city");
         let streetSelect = document.getElementById("address_street");
+        let latitudeInput = document.getElementById("address_latitude");
+        let longitudeInput = document.getElementById("address_longitude");
         let cityNameSelected = citySelect.options[citySelect.options.selectedIndex].text
         citySelect.addEventListener("change", collectCity)
         streetSelect.addEventListener("change", collectCity)
-        document.getElementById("MAJLatLng").addEventListener("click", showMap)// **** TEST ****
 
         function collectCity(){
             cityNameSelected = citySelect.options[citySelect.options.selectedIndex].text
@@ -95,9 +92,6 @@
         geocoder.query(cityNameSelected, showMap);
 
         function showMap(err, data) {
-            let latitudeInput = document.getElementById("address_latitude");
-            let longitudeInput = document.getElementById("address_longitude");
-
             // The geocoder can return an area, like a city, or a
             // point, like an address. Here we handle both cases,
             // by fitting the map bounds to an area or zooming to a point.
@@ -111,13 +105,22 @@
             latitudeInput.value = collectLatitude;
             let collectLongitude = data.latlng[1];
             longitudeInput.value = collectLongitude;
-
-            console.log(collectLatitude);
-            console.log(collectLongitude);
         }
 
-    </script>
+        document.getElementById("map").addEventListener('click', loadCoordinates)
 
-    {# TODO TEST MAP #}
+        function loadCoordinates(){
+            let coordinateMap = map.getBounds();
+            let centerLat = (coordinateMap._northEast.lat + coordinateMap._southWest.lat) / 2;
+            let centerLng = (coordinateMap._northEast.lng + coordinateMap._southWest.lng) / 2;
+
+            latitudeInput.value = centerLat;
+            longitudeInput.value = centerLng;
+        }
+        {# TODO AJOUTER UN MARKER #}
+
+    </script>
+    {# MAP AJAX #}
+
 </div>
 {% endblock %}
