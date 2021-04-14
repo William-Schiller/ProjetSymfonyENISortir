@@ -24,11 +24,12 @@
     </head>
 
     <header  class="d-flex flex-column flex-md-row justify-content-between p-3 px-md-4 bg-body border-bottom shadow-sm">
-        <div class="m-4">
-            <a href="{{ path('home') }}"><img src="{{ asset('/img/logo.png') }}" class="rounded logoNav" alt="logo"></a>
+        <div class="m-2">
+            <a style="float:left" href="{{ path('home') }}"><img src="{{ asset('/img/logo.png') }}" class="rounded logoNav" alt="logo"></a>
         </div>
         <div class="m-4">
             <p class="h5 my-0 me-md-auto fw-normal">{% block name %}{% endblock %}</p>
+
             <nav class="my-2 my-md-0 me-md-3">
                 <a class="p-2 text-dark" href="{{ path('home') }}">Accueil</a>
                 {%  if app.user %}

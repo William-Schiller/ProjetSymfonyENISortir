@@ -38,8 +38,8 @@ class Adress
     private $longitude;
 
     /**
-     * @ORM\ManyToOne(targetEntity=City::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=City::class , inversedBy="adress")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $city;
 

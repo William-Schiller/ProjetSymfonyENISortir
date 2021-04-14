@@ -56,7 +56,6 @@ class TripManageController extends AbstractController
         if(is_null($trip) || $trip->getPromoter() != $this->getUser()){
             throw $this->createNotFoundException();
         }
-
         $trip->setDuration($trip->getDuration()/60/60); // Duration second on hours for form
         $form = $this->createForm(UpdateManageTripType::class, $trip);
 

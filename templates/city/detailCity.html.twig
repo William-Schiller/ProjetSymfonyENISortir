@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des villes{% endblock %}
+
+{% block body %}
+
+    <div class="container text-center p-4 form-group">
+        <h1>Modification d'une ville :</h1>
+        {{ form_start(cityForm) }}
+        <div class="row my-4">
+            <div class="col-3 offset-3">
+                {{ form_label(cityForm.name, 'Nom') }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(cityForm.name, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-danger">{{ form_errors(cityForm.name) }}</small>
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-3 offset-3">
+                {{ form_label(cityForm.postalCode, 'Code postal') }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(cityForm.postalCode, {'attr': {'class': 'form-control'}}) }}
+                <small class="text-danger">{{ form_errors(cityForm.postalCode) }}</small>
+            </div>
+        </div>
+    </div>
+    <div align="center" style="margin-bottom: 30px">
+        <button type="submit" class="btn btn-outline-secondary">Modifier</button>
+        {{ form_end(cityForm) }}
+    </div>
+    </div>
+
+{% endblock %}
