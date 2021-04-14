@@ -5,11 +5,9 @@ namespace App\Form;
 
 
 use App\Data\SearchData;
-use App\Entity\Campus;
-use App\Entity\Trip;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -29,38 +27,38 @@ class SearchType extends AbstractType
                     'placeholder' => 'Rechercher'
                 ]
             ])
-        ->add('campus', EntityType::class, [
-            'label' => false,
-            'required' => false,
-            'class' => 'App\Entity\Campus'
-        ])
-        ->add('dateMin', DateType::class, [
-            'label' => 'Entre le',
-            'required' => false,
-            'format' => 'dd/MM/yyyy',
-            'attr' => [
-                'class' => 'date_picker'
-            ]
-        ])
-        ->add('dateMax', DateType::class, [
-            'label' => 'et le',
-            'required' => false,
-            'format' => 'dd/MM/yyyy'
+            ->add('campus', EntityType::class, [
+                'label' => false,
+                'required' => false,
+                'class' => 'App\Entity\Campus',
+                'placeholder' => 'Séléctionnez un campus'
+            ])
+            ->add('dateMin', DateType::class, [
+                'required' => false,
+                'widget' => 'single_text',
+            ])
+            ->add('dateMax', DateType::class, [
+                'required' => false,
+                'widget' => 'single_text',
+            ])
+            ->add('isOrganizer', ChoiceType::class, [
+                'choices' => [
+                    ' Sorties dont je suis l\'organisateur/trice' => ' Sorties dont je suis l\'organisateur/trice',
+                ],
+                'placeholder' => false,
+                'expanded' => true,
+                'required' => false,
 
-        ])
-
-        ->add('isOrganizer', CheckboxType::class, [
-            'label' => 'Sorties dont je suis l\'organisateur/trice',
-            'required' => false,
-        ])
-        ->add('subscribedTo', CheckboxType::class, [
-            'label' => 'Sorties auxquelles je suis inscrit/e',
-            'required' => false,
-        ])
-        ->add('insubscribedTo', CheckboxType::class, [
-            'label' => 'Sorties auxquelles je ne suis pas inscrit/e',
-            'required' => false,
-        ]);
+            ])
+            ->add('subscribedTo', ChoiceType::class, [
+                'choices' => [
+                    'Sorties auxquelles je suis inscrit/e' => "1",
+                    //'Sorties auxquelles je ne suis pas inscrit/e' => "2",
+                ],
+                'placeholder' => false,
+                'expanded' => true,
+                'required' => false,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

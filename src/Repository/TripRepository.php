@@ -60,6 +60,8 @@ class TripRepository extends ServiceEntityRepository
         return ceil(count($query->getResult()) / $nbLine);
     }
 
+    //passer le nombre de lignes à findSearch
+
 
     /**
      * Récupère les sorties en lien avec une recherche
@@ -72,73 +74,61 @@ class TripRepository extends ServiceEntityRepository
             ->select('camp', 'trips')
             ->join('trips.campus', 'camp');
 
-        if (!empty($search->subscribedTo)){
+        //ChoicesType si l'utilisateur est inscrit
+        if (($search->subscribedTo) == 1) {
             $query = $query
                 ->join('trips.inscription', 'inscpt')
                 ->andWhere('inscpt.participant = :idCurrentUser')
                 ->setParameter('idCurrentUser', $idCurrentUser);
-
         }
 
-        if (!empty($search->search)){
+        //aller récupérer la list des id de toutes les sorties auxquelles le participant est inscrit
+        //utiliser la liste dans un not in dans la requête (NOT IN)
+        /*if (($search->subscribedTo) == 2) {
+            $query = $query
+                ->join('trips.inscription', 'inscpt')
+                ->andWhere('inscpt.participant != :idCurrentUser')
+                ->andWhere('inscpt.participant NOT IN (:inscription')
+                ->setParameter('idCurrentUser', $idCurrentUser);
+        }*/
+
+
+        if (!empty($search->search)) {
             $query = $query
                 ->andWhere('trips.name LIKE :search')
                 ->setParameter('search', "%{$search->search}%");
         }
 
-        if (!empty($search->dateMin)){
+        if (!empty($search->campus)) {
+            $query = $query
+                ->andWhere('trips.campus IN (:campus)')
+                ->setParameter('campus', $search->campus);
+        }
+
+        if (!empty($search->dateMin)) {
             $query = $query
                 ->andWhere('trips.dateStart >= :dateMin')
                 ->setParameter('dateMin', $search->dateMin);
         }
 
-        if (!empty($search->dateMax)){
+        if (!empty($search->dateMax)) {
             $query = $query
                 ->andWhere('trips.dateStart <= :dateMax')
                 ->setParameter('dateMax', $search->dateMax);
         }
 
-        if (!empty($search->isOrganizer)){
+        //ChoicesType si l'utilisateur est organisateur de la sortie
+        if (!empty($search->isOrganizer)) {
             $query = $query
                 ->andWhere('trips.promoter = :idCurrentUser')
                 ->setParameter('idCurrentUser', $idCurrentUser);
 
         }
 
-
+        //nbPage, a la fin de la création des filtres, executer la requete sans limiter le nombre de resultat
 
         return $query->getQuery()->getResult();
-   }
-
-    // /**
-    //  * @return Trip[] Returns an array of Trip objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Trip
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-
 
 
 }

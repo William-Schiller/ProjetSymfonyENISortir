@@ -38,8 +38,6 @@ class TripController extends AbstractController
 
         $trips = $tripRepo->findSearch($data, $this->getUser()->getId());
 
-        //$trips = $tripRepo->findSearch($data);
-
         return $this->render('trip/index.html.twig', compact('trips', 'numPage',
             'nbPages', 'formSearch'));
 

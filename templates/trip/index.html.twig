@@ -1,42 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {% endblock %}
+{% block title %}Liste des sorties{% endblock %}
 
 {% block body %}
-    <h1>Listes des sorties</h1>
 
-    <a href="{{ url('tripManage_create') }}">Creer une sortie</a>
 
-    <div>
-        <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                {% include 'trip/filter.html.twig' with {formSearch: formSearch} only %}
-            </div>
-            <div class="col-md-9">
-
-            </div>
+    <div class="row my-4 justify-content-around">
+        <h1>Liste des sorties</h1>
+        <div class="col-md-6 text-md-right">
+            <a href="{{ url('tripManage_create') }}" class="btn btn-primary w-20">Créer une sortie</a>
         </div>
-
-        </div>
-
-        {#  <form action="{{ url('trip_list') }}" method="post">
-            <label>
-                Liste Campus
-                <select name="campusFilter">
-                    <option value="">Séléctionner un campus</option>
-                    {% for campus in campusList %}
-                        <option value="{{ campus.id }}"
-                                {% if campus.id == idCampus %}
-                                    selected
-                                {% endif %}
-                        >{{ campus.name }}</option>
-                    {% endfor %}
-                </select>
-            </label>
-            <input type="submit">
-        </form> #}
     </div>
+
+
+    {% include 'trip/filter.html.twig' with {formSearch: formSearch} only %}
+
 
     <div class="container-fluid">
         <table class="table">
@@ -73,8 +51,6 @@
                     </td>
                 </tr>
             {% endfor %}
-
-
             </tbody>
         </table>
 
@@ -92,3 +68,5 @@
         </div>
     </div>
 {% endblock %}
+
+
