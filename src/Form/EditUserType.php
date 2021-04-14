@@ -23,13 +23,9 @@ class EditUserType extends AbstractType
             ->add('phoneNumber')
             ->add('mail')
             ->add('password', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
                 'mapped' => false,
+                'required' =>false,
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Entrer un mot de passe',
-                    ]),
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Votre mot de passe doit avoir au moins {{ limit }} charactères',
@@ -42,10 +38,9 @@ class EditUserType extends AbstractType
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
+                'required' =>false,
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Entrer un mot de passe',
-                    ]),
+
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Votre mot de passe doit avoir au moins {{ limit }} charactères',

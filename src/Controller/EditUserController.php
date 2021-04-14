@@ -2,14 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Participant;
 use App\Form\EditUserType;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 class EditUserController extends AbstractController
@@ -38,7 +34,6 @@ class EditUserController extends AbstractController
         //controle des données soumises
         if ($userForm->isSubmitted() && $userForm->isValid()) {
             $image = $userForm->get('picture')->getData(); //Récuperer le fichier
-
             //stocker le nom du fichier dans une variable
             if($image){
                 //Recuperer le nom du fichier

@@ -46,6 +46,7 @@ class SearchType extends AbstractType
             'label' => 'et le',
             'required' => false,
             'format' => 'dd/MM/yyyy'
+
         ])
 
         ->add('isOrganizer', CheckboxType::class, [

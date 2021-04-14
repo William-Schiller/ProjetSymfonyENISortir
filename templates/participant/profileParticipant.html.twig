@@ -5,38 +5,37 @@
     <div class="p-5">
 
         <h3 align="center">{{ participant.pseudo }}</h3>
-
         <div class="row" style="margin-top: 60px">
-            <div class="col-md-4" style="margin-left: 100px">
+            <div class="col-md-3" style="margin-left: 100px">
                 {% if(participant.pictureFileName != null) %}
                    <img  class=" rounded-circle " src="{{ asset( '/img/profilePicture/' ~app.user.pictureFileName) }}" alt="profile-pic"/>
                 {% else %}
                    <img class="rounded-circle "   src="/img/profilePicture/noPicture.jpeg" alt="profile-pic"/>
                 {% endif %}
             </div>
-            <div class="col-md-" align="left">
-            <ul style="list-style-type: none;">
-                <div style="margin-top: 10px">
-                    <li>Prénom : {{ participant.name }}</li>
-                </div>
-                <div style="margin-top: 10px">
-                    <li>Nom : {{ participant.lastName | capitalize}}</li>
-                </div >
-                <div style="margin-top: 10px">
-                    <li>Téléphone : {{ participant.phoneNumber }}</li>
-                </div>
-                <div style="margin-top: 10px">
-                    <li>E-mail : {{ participant.mail }}</li>
-                </div>
-                <div style="margin-top: 10px">
-                    <li>Campus : {{ participant.campus }}</li>
-                </div>
+            <div class="col-md-" align="center" style="margin-left: 100px">
+                <ul style="list-style-type: none;">
+                    <div style="margin-top: 20px">
+                        <li >Prénom : {{ participant.name }}</li>
+                    </div>
+                    <div style="margin-top: 20px">
+                        <li>Nom : {{ participant.lastName | capitalize}}</li>
+                    </div >
+                    <div style="margin-top: 20px">
+                        <li>Téléphone : {{ participant.phoneNumber }}</li>
+                    </div>
+                    <div style="margin-top: 20px">
+                        <li>E-mail : {{ participant.mail }}</li>
+                    </div>
+                    <div style="margin-top: 20px">
+                        <li>Campus : {{ participant.campus }}</li>
+                    </div>
                 </ul>
             </div>
         </div>
     </div>
     <div align="center" style="margin-top: 50px">
-            <button type="button"> <a href=""></a>Retour</button>
+            <button type="button" class="btn btn-outline-secondary"> <a href=""></a>Retour</button>
     </div>
 
 
