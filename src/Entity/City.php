@@ -27,6 +27,12 @@ class City
      */
     private $postalCode;
 
+    /**
+     * @ORM\OneToMany (targetEntity=Adress::class, mappedBy="city", cascade={"persist"})
+     */
+    private $adress;
+
+
     public function getId(): ?int
     {
         return $this->id;

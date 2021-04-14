@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Villes{% endblock %}
+
+{% block body %}
+<div class="p-5">
+<div class="text-center mb-5">
+    <h1>Gérer les villes</h1>
+</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Ville</th>
+        <th scope="col">Code postal</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for city in cities %}
+    <tr>
+        <td>{{ city.name }}</td>
+        <td>{{ city.postalCode }}</td>
+        <td> <a href="{{ path('city_modify', {'id': city.id }) }}">
+                <button class="btn btn-outline-secondary">Modifier</button></a>
+            <a  href="{{ path('city_delete', {'id': city.id }) }}">
+                <button class="btn btn-outline-danger">Supprimer</button></a>
+        </td>
+        {% endfor %}
+    </tr>
+    </tbody></table>
+    <div class=" row justify-content-center navigation">
+        {{ knp_pagination_render(cities) }}
+    </div>
+    </div>
+
+
+
+
+    {% endblock %}
