@@ -11,7 +11,6 @@ function sendAjaxCity() {
         }
     })
     .then(function (response) {
-        console.log(keyword);
         let result = document.getElementById("create_trip_adress");
         result.innerHTML = response.data;
     });

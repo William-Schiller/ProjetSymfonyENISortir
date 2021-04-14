@@ -1,3 +1,29 @@
+****************************************
+Pour liste des sorties
+        /*
+         *Code a copier :
+         * Dans index.html de Trip :
+         *
+                        <td>{{ "Afficher" }}
+                        {# TODO SUPPRIMER #}
+                        {% if app.user != trip.promoter %}
+                            <a href="{{ path('inscription_register', {'id': trip.id }) }}">S'inscrire</a>
+                        {% endif %}
+                        {# TODO JUSQUE LA #}
+                    </td>
+                </tr>
+            {% endfor %}
+         *
+         * Code original
+         *          <td>{{ trip.promoter }}</td>
+         *       <td>{{ "Afficher" }}</td>
+         *  </tr>
+         *{% endfor %}
+         */
+**************************************
+
+
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Gestion des sorties{% endblock %}
