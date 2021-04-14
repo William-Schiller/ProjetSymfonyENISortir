@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    {# MapBox #}
+    <script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
+{% endblock %}
+
+{% block title %}Sortie {{ trip.name }}{% endblock %}
+
+{% block body %}
+    <script>let dateCountdown = new Date('{{ trip.dateStart|date }}');</script>
+<div class="container text-center p-4 form-group text-dark">
+    <h1 class="m-5">Detail de la sortie : <span class="font-weight-bold">{{ trip.name }}</span></h1>
+
+    <div class="row my-4 justify-content-around">
+        <div class="col-md-4">
+            <h2>Liste des participants : {{ trip.inscription|length }}/{{ trip.nbMaxRegistration }}</h2>
+            {% for inscpt in trip.inscription %}
+               <p class="font-weight-bold"><a href="">{{ inscpt.participant.pseudo }}</a></p>
+            {% endfor %}
+            <h2>Carte :</h2>
+            <div id="map" class="mapClass"></div>
+            <script>
+                let lat = {{ trip.adress.latitude }};
+                let lng = {{ trip.adress.longitude }};
+                L.mapbox.accessToken = 'pk.eyJ1Ijoid2lsbGlhbXNjaGlsbGVyIiwiYSI6ImNrbmVvM25zbjB6enIyem83bTU4YTg0ejgifQ.xENX6fDU5_itArRo11KU1g';
+
+                var map = L.mapbox.map('map')
+                    .setView([lat, lng], 15)
+                    .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
+            </script>
+
+        </div>
+        <div class="col-md-8">
+            <h2 class="rounded border border-primary">La sortie est <span class="text-primary">{{ trip.status.name }}</span></h2>
+            <h2 class="text-primary">Organisé par <a href="{{ path('profilePaticipant_showParticipant_', {'id': trip.promoter.id}) }}">{{ trip.promoter.name }}</a></h2>
+            <h2>Description :</h2>
+            <p class="font-weight-bold">{{ trip.informationTrip }}</p>
+            <h2>Campus :</h2>
+            <p class="font-weight-bold">{{ trip.campus }}</p>
+            <h2>Lieu :</h2>
+            <p class="font-weight-bold">{{ trip.adress.name }}, {{ trip.adress.street }}, {{ trip.adress.city.name }} - {{ trip.adress.city.postalCode }}</p>
+            <h2>Date de la sortie :</h2>
+            <p class="font-weight-bold">{{ trip.dateStart|date('d/m/Y H:m') }}</p>
+            <h2>Temps avant la fin des inscriptions :</h2>
+            <p class="font-weight-bold" id="idCountDown"></p>
+            <h2>Durée :</h2> {# TODO DUREE #}
+            <p class="font-weight-bold">{{ trip.duration }} secondes</p> {# TODO DUREE #}
+        </div>
+    </div>
+
+</div>
+<script src="{{ asset('/js/countDown.js') }}"></script>
+{% endblock %}
