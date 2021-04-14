@@ -9,6 +9,7 @@ use App\Form\SearchType;
 use App\Repository\CampusRepository;
 use App\Repository\TripRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,7 +26,7 @@ class TripController extends AbstractController
     /**
      * @Route("{numPage}", requirements={"numPage":"\d+"}, defaults={"numPage":"1"}, name="list", methods={"GET", "POST"})
      */
-    public function list($numPage, Request $request, TripRepository $tripRepo )
+    public function list($numPage, Request $request, TripRepository $tripRepo)
     {
         $nbLines = 10;
         $nbPages = $tripRepo->nbPages($nbLines);
@@ -35,12 +36,21 @@ class TripController extends AbstractController
         $form->handleRequest($request);
         $formSearch = $form->createView();
 
-
         $trips = $tripRepo->findSearch($data, $this->getUser()->getId());
 
         return $this->render('trip/index.html.twig', compact('trips', 'numPage',
             'nbPages', 'formSearch'));
 
+    }
+
+    /**
+     * @Route(path="detailSortie/{id}", requirements={"id":"\d+"}, name="detail_trip")
+     */
+    public function detailTrip(Request $request, TripRepository $tripRepository)
+    {
+        $id = $request->get('id');
+        $trip = $tripRepository->findOneBy(['id' => $id]);
+        return $this->render('trip/detail.html.twig', compact('trip'));
     }
 }
 
