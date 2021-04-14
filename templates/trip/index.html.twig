@@ -42,7 +42,7 @@
                     <td>{{ trip.status }}</td>
                     <td>{{ "X" }}</td>
                     <td>{{ trip.promoter }}</td>
-                    <td>{{ "Afficher" }}
+                    <td>{{ trip.informationTrip }}
                         {# TODO SUPPRIMER #}
                         {% if app.user != trip.promoter %}
                             <a href="{{ path('inscription_register', {'id': trip.id }) }}">S'inscrire</a>
@@ -53,20 +53,12 @@
             {% endfor %}
             </tbody>
         </table>
-
-        <div class="row justify-content-between">
-            <div>
-                {% if numPage > 1 %}
-                    <a href="{{ path('trip_list', {'numPage': numPage-1}) }}"> Précédent </a>
-                {% endif %}
-            </div>
-            <div>
-                {% if numPage < nbPages %}
-                    <a href="{{ path('trip_list', {'numPage': numPage+1}) }}"> Suivant </a>
-                {% endif %}
-            </div>
+        {# display navigation #}
+        <div class="navigation row justify-content-center">
+            {{ knp_pagination_render(trips) }}
         </div>
     </div>
+
 {% endblock %}
 
 
