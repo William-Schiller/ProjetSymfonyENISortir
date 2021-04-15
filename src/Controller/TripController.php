@@ -46,8 +46,6 @@ class TripController extends AbstractController
                 10
             );
 
-
-
         return $this->render('trip/index.html.twig', compact('trips', 'numPage',
             'nbPages', 'formSearch'));
 
@@ -60,6 +58,7 @@ class TripController extends AbstractController
     {
         $id = $request->get('id');
         $trip = $tripRepository->findOneBy(['id' => $id]);
+
         return $this->render('trip/detail.html.twig', compact('trip'));
     }
 }

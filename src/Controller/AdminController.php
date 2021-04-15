@@ -6,6 +6,8 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Repository\ParticipantRepository;
+use App\Repository\StatusRepository;
+use App\Repository\TripRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,6 +57,30 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('admin_listUser');
     }
 
+    /**
+     * @Route("annulerSortie/{id}", requirements={"id" = "\d+"}, name="cancel_trip")
+     */
+    public function cancelTrip(Request $request, TripRepository $tripRepository, StatusRepository $statusRepository, EntityManagerInterface $entityManager){
+        $id = $request->get('id');
 
+        $trip = $tripRepository->findOneBy(['id' => $id]);
+
+        if(is_null($trip) || !$this->getUser()->getAdmin() || $trip->getStatus()->getName() != 'Active'){
+            throw $this->createNotFoundException();
+        }
+
+        $cancelInformationText = "Sortie annulé par un administrateur "  . ' [' . $trip->getInformationTrip() . ']';
+
+        $status = $statusRepository->findOneBy(['name' => 'Desactivate']);
+        $trip->setStatus($status);
+        $trip->setInformationTrip($cancelInformationText);
+
+        $entityManager->persist($trip);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'La sortie a bien été annulée');
+
+        return $this->redirectToRoute('trip_list');
+    }
 
 }

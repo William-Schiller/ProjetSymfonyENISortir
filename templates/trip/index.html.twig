@@ -56,6 +56,11 @@
                                         {% endif %}
                                     {% endif %}
                                 </td>
+                                <td>
+                                    {% if app.user.admin and trip.status.name == 'Active'  %}
+                                        <a href="{{ path('admin_cancel_trip', {'id': trip.id }) }}"><button class="btn btn-outline-danger">Annuler</button></a>
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
