@@ -5,7 +5,6 @@ namespace App\Controller;
 
 
 use App\Entity\Participant;
-use App\Repository\ParticipantRepository;
 use App\Repository\StatusRepository;
 use App\Repository\TripRepository;
 use Doctrine\ORM\EntityManagerInterface;
