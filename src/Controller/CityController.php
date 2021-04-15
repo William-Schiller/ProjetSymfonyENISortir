@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Data\SearchDataCity;
 use App\Entity\City;
 use App\Form\CityType;
+use App\Form\FiltreCityType;
+use App\Repository\CityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,38 +23,19 @@ class CityController extends AbstractController
 {
 
     /**
-     * @Route("", name="list")
+     * @Route("", name="create")
      */
-    public function list(EntityManagerInterface $entityManager,Request $request, PaginatorInterface $paginator)
-    {
-        $city = $entityManager->getRepository('App:City')->findAll();
-
-        $cities = $paginator
-            ->paginate($city, $request->query
-                ->getInt('page',1),
-                10
-            );
-
-
-        return $this->render('city/createCity.html.twig', [
-            'cities'=>$cities,
-        ]);
-
-
-    }
-
-    /**
-     * @Route("/ajouter", name="create")
-     */
-    public function create(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator)
+    public function create(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator, CityRepository $cityRepository)
     {
         $cityList = $em->getRepository('App:City')->findAll();
 
         $cities = $paginator
             ->paginate($cityList, $request->query
-                ->getInt('page',1),
+                ->getInt('page', 1),
                 10
             );
+
+        // Insertion d'une nouvelle ville
         $city = new city();
         $cityForm = $this->createForm(CityType::class, $city);
         $cityForm->handleRequest($request);
@@ -68,8 +52,26 @@ class CityController extends AbstractController
             return $this->redirectToRoute('city_create');
         }
 
+        //filtre
+        $data = new SearchDataCity();
+        $form = $this->createForm(FiltreCityType::class, $data);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $searchCity = $cityRepository->findSearch($data);
+            $cities= $paginator
+                ->paginate($searchCity, $request->query
+                    ->getInt('page', 1),
+                    10
+                );
+
+        }
         return $this->render('city/createCity.html.twig',
-            ['cityForm'=>$cityForm->createView(), 'cities'=>$cities]);
+
+            ['cityForm' => $cityForm->createView(),
+                'cities' => $cities,
+                'formSearch' => $form->createView(),
+            ]);
     }
 
     /**

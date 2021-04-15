@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\SearchDataCampus;
 use App\Entity\Campus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -31,6 +32,19 @@ class CampusRepository extends ServiceEntityRepository
             ->setFirstResult(($numPage - 1) * $limit);
         $query = $queryBuilder->getQuery();
         return new Paginator($query);
+    }
+
+    /**
+     * Récupère les campus en lien avec une recherche
+     * @return Campus[]
+     */
+    public function findSearch(SearchDataCampus $search): array {
+
+        $query = $this->createQueryBuilder('c')
+            ->where('c.name LIKE :search')
+            ->setParameter('search', "%{$search->search}%");
+
+        return $query->getQuery()->getResult();
     }
 
     // /**
