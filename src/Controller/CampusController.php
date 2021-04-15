@@ -2,18 +2,11 @@
 
 namespace App\Controller;
 
-use App\Data\SearchData;
 use App\Data\SearchDataCampus;
-use App\Data\SearchDataCity;
 use App\Entity\Campus;
-use App\Entity\City;
 use App\Form\CampusType;
-use App\Form\CityType;
 use App\Form\FiltreCampusType;
-use App\Form\FiltreCityType;
-use App\Form\SearchType;
 use App\Repository\CampusRepository;
-use App\Repository\CityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -103,7 +96,7 @@ class CampusController extends AbstractController
             $em->persist($campus);
             $em->flush();
             $this->addFlash(
-                'success', 'La campus a bien été modifiée');
+                'success', 'La campus a bien été modifié');
         }
         return $this->render('campus/detailCampus.html.twig',
             ['campusForm'=>$campusForm->createView()]);

@@ -44,6 +44,7 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
     public function findUser($limit, $numPage) {
         $qb = $this->createQueryBuilder('user')
             ->where('user.admin = :admin')->setParameter(':admin', 0)
+            ->orderBy('user.name', 'ASC')
             ->setMaxResults($limit)
             ->setFirstResult(($numPage-1)*$limit)
       ;
