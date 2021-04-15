@@ -58,6 +58,7 @@ class TripController extends AbstractController
     {
         $id = $request->get('id');
         $trip = $tripRepository->findOneBy(['id' => $id]);
+
         return $this->render('trip/detail.html.twig', compact('trip'));
     }
 }

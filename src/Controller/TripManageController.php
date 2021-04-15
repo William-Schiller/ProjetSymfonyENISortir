@@ -177,7 +177,8 @@ class TripManageController extends AbstractController
     /**
      * @Route(path="annuler/{id}", requirements={"id":"\d+"}, name="cancel_validate")
      */
-    public function cancelValidate(Request $request, TripRepository $tripRepository, StatusRepository $statusRepository, EntityManagerInterface $entityManager){
+    public function cancelValidate(Request $request, TripRepository $tripRepository,
+                                   StatusRepository $statusRepository, EntityManagerInterface $entityManager){
         $id = $request->get('id');
         $motiveText = $request->get('motiveText');
 

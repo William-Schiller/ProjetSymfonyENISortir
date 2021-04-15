@@ -73,8 +73,7 @@ class TripRepository extends ServiceEntityRepository
         $query = $this
             ->createQueryBuilder('trips')
             ->select('camp', 'trips')
-            ->join('trips.campus', 'camp')
-            ->join('trips.inscription', 'reg');
+            ->join('trips.campus', 'camp');
 
 
         //ChoicesType si l'utilisateur est inscrit
@@ -96,10 +95,25 @@ class TripRepository extends ServiceEntityRepository
         }*/
         if ($search->insubscribedTo) {
             $query = $query
+                ->join('trips.inscription', 'reg')
                 ->join('reg.participant', 'regBis')
                 ->andWhere($query->expr()->notIn('regBis.id', ':idCurrentUser'))
                 ->setParameter('idCurrentUser', $idCurrentUser,$search->insubscribedTo);
-}
+
+//            $tripsWithoutInsubscrided = $query->getQuery()->getResult();
+//            $tripReturn = $tripsWithoutInsubscrided;
+//            foreach ($tripsWithoutInsubscrided as $key => $trip){
+//                $arrayIdUser = [];
+//                foreach ($trip->getInscription() as $insc){
+//                    array_push($arrayIdUser, $insc->getParticipant()->getId());
+//                }
+//                if(!array_search($idCurrentUser, $arrayIdUser)){
+//                    unset($tripReturn[$key]);
+//                }
+//            }
+//
+//            return $tripReturn;
+        }
 
         /*if ($search->insubscribedTo) {
            $queryBis = $query
