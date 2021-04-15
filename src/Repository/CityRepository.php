@@ -2,9 +2,9 @@
 
 namespace App\Repository;
 
+use App\Data\SearchDataCity;
 use App\Entity\City;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,12 +19,21 @@ class CityRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, City::class);
     }
+    /**
+     * Récupère les villes en lien avec une recherche
+     * @return City[]
+     */
+    public function findSearch(SearchDataCity $search): array {
 
+        $query = $this->createQueryBuilder('c')
+            ->where('c.name LIKE :search')
+            ->setParameter('search', "%{$search->search}%");
 
-    // /**
-    //  * @return City[] Returns an array of City objects
-    //  */
-    /*
+        return $query->getQuery()->getResult();
+    }
+
+/* @return City[] Returns an array of City objects
+/*
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('c')

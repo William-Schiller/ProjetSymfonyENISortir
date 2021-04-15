@@ -6,9 +6,9 @@
 {% block body %}
 <div class="p-5">
 <div class="text-center mb-5">
-    <h1>Gérer les villes</h1>
+    <h1>Gérer les campus</h1>
 </div>
-            <h5>Filtrer les villes :</h5>
+            <h5>Filtrer les campus :</h5>
     {{ form_start(formSearch) }}
             <div class="row my-4 justify-content-around ">
                 <div class="col-md-1.5">
@@ -30,43 +30,36 @@
     <thead>
     <tr>
         <th scope="col">Ville</th>
-        <th scope="col">Code postal</th>
         <th scope="col">Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        {{ form_start(cityForm) }}
+        {{ form_start(campusForm) }}
 
         <td>
             <div class="col-md-8">
-                {{ form_widget(cityForm.name, {'attr': {'class': 'form-control'}}) }}
-            <small class="text-danger">{{ form_errors(cityForm.name) }}</small>
+                {{ form_widget(campusForm.name, {'attr': {'class': 'form-control'}}) }}
+            <small class="text-danger">{{ form_errors(campusForm.name) }}</small>
             </div>
         </td>
-        <td>
-            <div class="col-md-8">
-            {{ form_widget(cityForm.postalCode, {'attr': {'class': 'form-control'}}) }}
-            <small class="text-danger">{{ form_errors(cityForm.postalCode) }}</small></td>
-            </div>
         <td><a href="{{ path('city_create') }}">
                 <button class="btn btn-outline-primary">Ajouter</button></a></td>
     </tr>
-    {{ form_end(cityForm) }}
-    {% for city in cities %}
+    {{ form_end(campusForm) }}
+    {% for camp in campus %}
     <tr>
-        <td>{{ city.name }}</td>
-        <td>{{ city.postalCode }}</td>
-        <td> <a href="{{ path('city_modify', {'id': city.id }) }}">
+        <td>{{ camp.name }}</td>
+        <td> <a href="{{ path('campus_modify', {'id': camp.id }) }}">
                 <button class="btn btn-outline-secondary">Modifier</button></a>
-            <a  href="{{ path('city_delete', {'id': city.id }) }}">
+            <a  href="{{ path('campus_delete', {'id': camp.id }) }}">
                 <button class="btn btn-outline-danger">Supprimer</button></a>
         </td>
         {% endfor %}
 
     </tbody></table>
     <div class=" row justify-content-center navigation">
-        {{ knp_pagination_render(cities) }}
+        {{ knp_pagination_render(campus) }}
     </div>
     </div>
 
