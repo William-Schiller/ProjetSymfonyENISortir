@@ -68,7 +68,6 @@ footer {
     position: relative;
     bottom: 0;
     width: auto;
-
 }
 
 img {
@@ -78,10 +77,11 @@ img {
 }
 
 .bgFooter{
-    background-color: rgba(255,255,255,0.9);
+    /*background-color: rgba(255,255,255,0.9);*/
 }
 
 .styleFooter {
+    color: #fff;
     font-weight: bold;
     animation: Test 1s infinite;
 }
@@ -89,4 +89,41 @@ img {
     0%{opacity: 1;}
 
     100%{opacity: 0;}
+}
+
+.adminLinkNavBar{
+    background-color:#144a7f;
+}
+
+.adminLinkNavBar a:hover{
+    background-color: #144a7f;
+}
+
+
+/*** MODIF BUTTON SUCCES ***/
+.btnSuccess{
+    font-weight: bold;
+    color:#b1c13e;
+    background-color:#144a7f;
+    border-color:#144a7f
+}
+.btnSuccess:hover{
+    color:#fff;
+    background-color:#144a7f;
+    border-color:#144a7f
+}
+.btnSuccess.focus,.btnSuccess:focus{
+    box-shadow:0 0 0 .2rem #144a7f
+}
+.btnSuccess.disabled,.btnSuccess:disabled{
+    color:#fff;
+    background-color:#144a7f;
+    border-color:#144a7f
+}
+.btnSuccess:not(:disabled):not(.disabled).active,.btnSuccess:not(:disabled):not(.disabled):active,.show>.btnSuccess.dropdown-toggle{
+    color:#fff;
+    background-color:#144a7f;
+    border-color:#144a7f}
+.btnSuccess:not(:disabled):not(.disabled).active:focus,.btnSuccess:not(:disabled):not(.disabled):active:focus,.show>.btnSuccess.dropdown-toggle:focus{
+    box-shadow:0 0 0 .1rem #144a7f
 }
