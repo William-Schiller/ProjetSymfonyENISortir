@@ -30,18 +30,18 @@
         <div class="m-4">
             <p class="h5 my-0 me-md-auto fw-normal">{% block name %}{% endblock %}</p>
 
-            <nav class="my-2 my-md-0 me-md-3">
-                <a class="p-2 text-dark" href="{{ path('home') }}">Accueil</a>
+            <nav class="my-2 my-md-0 me-md-3 bgNavBar navbar pr-3 pl-3 m-5">
+                <a class="p-2" href="{{ path('home') }}">Accueil</a>
                 {%  if app.user %}
-                    <a class="p-2 text-dark" href="{{ url('showUser', {id: app.user.id}) }}">Mon profil</a>
-                    <a class="p-2 text-dark" href="{{ path('trip_list') }}">Sorties</a>
-                    <a class="p-2 text-dark" href="{{ path('app_logout') }}">Logout</a>
+                    <a class="p-2" href="{{ url('showUser', {id: app.user.id}) }}">Mon profil</a>
+                    <a class="p-2" href="{{ path('trip_list') }}">Sorties</a>
+                    <a class="p-2" href="{{ path('app_logout') }}">Logout</a>
                     {% if app.user.admin %}
-                        <a class="p-2 text-dark" href="{{ path('admin_listUser') }}">Liste des utilisateurs</a>
+                        <a class="p-2" href="{{ path('admin_listUser') }}">Liste des utilisateurs</a>
                     {% endif %}
                 {% else %}
-                    <a class="p-2 text-dark" href="{{ url('app_register') }}">Creer un compte</a>
-                    <a class="p-2 text-dark" href="{{ url('app_login') }}">Se connecter</a>
+                    <a class="p-2" href="{{ url('app_register') }}">Creer un compte</a>
+                    <a class="p-2" href="{{ url('app_login') }}">Se connecter</a>
                 {% endif %}
             </nav>
         </div>
@@ -66,9 +66,10 @@
     </div>
     </body>
 
-    <footer class="page-footer text-center pt-4 my-md-5 pt-md-5 border-top" >
-        FOOTER : WIWI LULU MAMA
-
+    <footer class="page-footer text-center pt-4 my-md-5 pt-md-5 border-top bgFooter">
+        <div class="styleFooter">
+            SuperTeam (Seven) LULU & MAMA & WIWI
+        </div>
     </footer>
 </html>
 
