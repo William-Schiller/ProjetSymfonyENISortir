@@ -8,7 +8,7 @@ function sendAjaxCity() {
         }
     })
     .then(function (response) {
-        let result = document.getElementById("inscriptionSection");
+        let result = document.getElementById(idUploadButton);
         result.innerHTML = response.data;
     });
 }

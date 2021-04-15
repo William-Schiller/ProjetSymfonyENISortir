@@ -70,8 +70,7 @@ class TripManageController extends AbstractController
 
             $this->addFlash('success', 'La sortie a bien été modifier'); //a afficher
 
-            return $this->redirectToRoute('tripManage_index');//, ['id'=>$trip->getId()]);
-            //TODO Return fiche detail de lulu
+            return $this->redirectToRoute('trip_detail_trip', ['id' => $trip->getId()]);
         }
         if(!$managerServices->checkDatesTrip($trip)){
             $this->addFlash('danger', 'La date de limite d\'inscription ne peut pas être suppérieur à la date de début');
@@ -165,10 +164,22 @@ class TripManageController extends AbstractController
     }
 
     /**
-     * @Route(path="annuler/{id}", requirements={"id":"\d+"}, name="cancel")
+     * @Route(path="annulation/{id}", requirements={"id":"\d+"}, name="cancel")
      */
     public function cancel(Request $request, TripRepository $tripRepository, StatusRepository $statusRepository, EntityManagerInterface $entityManager){
         $id = $request->get('id');
+
+        $trip = $tripRepository->findOneBy(['id' => $id]);
+
+        return $this->render('trip_manage/cancel.html.twig', compact('id', 'trip'));
+    }
+
+    /**
+     * @Route(path="annuler/{id}", requirements={"id":"\d+"}, name="cancel_validate")
+     */
+    public function cancelValidate(Request $request, TripRepository $tripRepository, StatusRepository $statusRepository, EntityManagerInterface $entityManager){
+        $id = $request->get('id');
+        $motiveText = $request->get('motiveText');
 
         $trip = $tripRepository->findOneBy(['id' => $id]);
 
@@ -176,8 +187,11 @@ class TripManageController extends AbstractController
             throw $this->createNotFoundException();
         }
 
+        $motiveText = "Annulée pour motif : " . $motiveText . ' [' . $trip->getInformationTrip() . ']';
+
         $status = $statusRepository->findOneBy(['name' => 'Desactivate']);
         $trip->setStatus($status);
+        $trip->setInformationTrip($motiveText);
 
         $entityManager->persist($trip);
         $entityManager->flush();

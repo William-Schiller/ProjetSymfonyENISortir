@@ -1,8 +1,16 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    <script src="{{ asset('/js/durationTrip.js') }}"></script>
+{% endblock %}
+
 {% block title %}Gestion des sorties{% endblock %}
 
 {% block body %}
+    <script>
+        //Recupere id input duration
+        const inputDuration = "update_manage_trip_duration";
+    </script>
 
     <div class="container text-center p-4 form-group">
         <h1>Modifier ma sortie :</h1>
@@ -46,10 +54,11 @@
         </div>
         <div class="row my-4">
             <div class="col-3 offset-3">
-                {{ form_label(tripForm.duration, 'Durée (jours)') }}
+                {{ form_label(tripForm.duration, 'Durée (heure)') }}
+                <small id="idDurationConv"></small>
             </div>
             <div class="col-3">
-                {{ form_widget(tripForm.duration, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(tripForm.duration, {'attr': {'class': 'form-control', 'onChange': 'postDuration()'}}) }}
                 <small class="text-danger">{{ form_errors(tripForm.duration) }}</small>
             </div>
         </div>
@@ -84,7 +93,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-light">Modifier</button>
+        <button type="submit" class="btn btn-dark">Modifier</button>
         {{ form_end(tripForm) }}
     </div>
 

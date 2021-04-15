@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des sorties{% endblock %}
+
+{% block body %}
+
+<div class="container text-center p-4 form-group">
+    <a class="pt-3" href="javascript:window.history.go(-1)"><button class="btn btn-outline-primary">Retour</button></a>
+
+    <h1>Annuler la sortie {{ trip.name }}</h1>
+    <div class="row my-4 justify-content-around">
+        <div class="col-md-6">
+            Date :
+        </div>
+        <div class="col-md-6">
+            {{ trip.dateStart|date('d/m/Y H:m') }}
+        </div>
+    </div>
+    <div class="row my-4 justify-content-around">
+        <div class="col-md-6">
+            Campus :
+        </div>
+        <div class="col-md-6">
+            {{ trip.campus }}
+        </div>
+    </div>
+    <div class="row my-4 justify-content-around">
+        <div class="col-md-6">
+            Lieu :
+        </div>
+        <div class="col-md-6">
+            {{ trip.adress.name }}, {{ trip.adress.street }}, {{ trip.adress.city.name }} - {{ trip.adress.city.postalCode }}
+        </div>
+    </div>
+    <form action="{{ path('tripManage_cancel_validate', {'id': trip.id}) }}" method="post">
+        <div class="row my-4 justify-content-around">
+            <div class="col-md-12">
+                <label for="motiveId">Motif :</label>
+            </div>
+        </div>
+        <div class="row my-4 justify-content-around">
+            <div class="col-md-12">
+                <textarea name="motiveText" id="motiveId" cols="30" rows="10" class="form-control">Il pleut ...</textarea>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-warning">Annuler la sortie</button>
+    </form>
+</div>
+{% endblock %}

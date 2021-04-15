@@ -16,6 +16,7 @@
         let dateCountdown = new Date('{{ trip.dateStart|date }}');
         //Recuperer le path pour ????
         const searchAddressURL = "{{ path('inscription_ajax_upload_button_inscription') }}";
+        let idUploadButton = "inscriptionSection";
         let userId = {{ app.user.id }};
         let tripId = {{ trip.id }};
     </script>

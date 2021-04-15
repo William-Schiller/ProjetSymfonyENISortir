@@ -1,21 +1,24 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+{% endblock %}
+
 {% block title %}Liste des sorties{% endblock %}
 
 {% block body %}
-
-
     <div class="row my-4 justify-content-around">
         <h1>Liste des sorties</h1>
         <div class="col-md-6 text-md-right">
-            <a href="{{ url('tripManage_create') }}" class="btn btn-primary w-20">Créer une sortie</a>
+            <a href="{{ url('tripManage_create') }}" class="btn btn-success w-20">Créer une sortie</a>
         </div>
     </div>
+
+    <div id="postDetail"></div>{# Detail Dynamique #}
 
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4 pr-0 h-100">
-                {% include 'trip/filter.html.twig' with {formSearch: formSearch} only %}
+                {% include 'trip/filter.html.twig' %}
             </div>
             <div class="col-md-8">
                 <div class="container-fluid container text-center p-4 form-group form-control ">
@@ -33,15 +36,25 @@
                         {% for trip in trips %}
                             <tr>
                                 <td>{{ trip.campus.name }}</td>
-                                <td>{{ trip.name }}</td>
+                                <td>{{ trip.name }} ({{ trip.status.frenchName }})</td>
                                 <td>{{ trip.dateStart|date("d/m/Y") }}</td>
-                                <td> <a href="{{ path('trip_detail_trip', {'id': trip.id }) }}"><button class="btn btn-outline-info">Afficher</button></a>
+                                <td>
+                                    {% include 'trip/detailMiniWindow.html.twig' with {trip: trip} only %} {# JS mini window #}
                                 </td>
-                                {# TODO SUPPRIMER #}
-                                <td>    {% if app.user != trip.promoter %}
-                                        <a href="{{ path('inscription_register', {'id': trip.id }) }}"><button class="btn btn-outline-info">S'inscrire</button></a>
+                                <td>
+                                    {# Recuperer la liste des participants #}
+                                    {% set arrayParticipant = [] %}
+                                    {% for i in trip.inscription %}
+                                        {% set arrayParticipant = arrayParticipant|merge([i.participant.id]) %}
+                                    {% endfor %}
+
+                                    {% if trip.status.name == 'Active' %}
+                                        {% if app.user.id in arrayParticipant %}
+                                            <a href="{{ path('inscription_unsubscribe', {'id': trip.id }) }}"><button class="btn btn-outline-warning">Se désinscrire</button></a>
+                                        {% else %}
+                                            <a href="{{ path('inscription_register', {'id': trip.id }) }}"><button class="btn btn-outline-success">S'inscrire</button></a>
+                                        {% endif %}
                                     {% endif %}
-                                    {# TODO JUSQUE LA #}
                                 </td>
                             </tr>
                         {% endfor %}
@@ -52,7 +65,6 @@
                         {{ knp_pagination_render(trips) }}
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

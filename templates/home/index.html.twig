@@ -3,6 +3,8 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
+<section id="gifConfetti"></section>
+
     <div align="center">
         <h1 style="margin-top: 200px">BIENVENUE
             {% if app.user %}
@@ -10,4 +12,41 @@
             {% endif %} </h1>
         <h2 style="margin-bottom: 200px"> Vous êtes sur le site dédié à l'organistion des sorties de l'ENI.</h2>
     </div>
+
+    <script>
+        let nb = 1;
+        let divConfetti = document.getElementById("gifConfetti");
+        window.addEventListener('click', chargeGif);
+
+        function chargeGif(){
+            let div = document.createElement("div");
+            let img = "<img src='{{ asset('img/gif/giphyConfetti.gif') }}'>";
+            let img2 = "<img src='{{ asset('img/gif/giphyConfetti2.gif') }}'>";
+
+            let rand = parseInt(Math.random()*4);
+            if(rand <= 2){
+                div.innerHTML = img;
+            }else {
+                div.innerHTML = img2;
+            }
+
+            var xRand = parseInt(Math.random()*100);
+            var yRand = parseInt(Math.random()*100);
+            div.setAttribute("style", `position : absolute; top : ${xRand}%; left : ${yRand}%;`);
+            let theID = "theID" + nb;
+            div.setAttribute("id", theID);
+
+            document.getElementById("gifConfetti").insertAdjacentElement("afterbegin", div);
+            if(rand <= 2){
+                setTimeout(deleteGif, 1000);
+            }else {
+                setTimeout(deleteGif, 3000);
+            }
+
+            function deleteGif() {
+                let toDelete = document.getElementById(theID);
+                toDelete.remove();
+            }
+        }
+    </script>
 {% endblock %}

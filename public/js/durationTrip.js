@@ -1,6 +1,6 @@
 function postDuration(){
     let textDuration = "";
-    let duration = document.getElementById("create_trip_duration").value;
+    let duration = document.getElementById(inputDuration).value;
     if (duration >= 24){
         let dayDuration = Math.floor(duration/24);
         duration = duration % 24;

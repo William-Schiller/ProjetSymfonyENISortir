@@ -1,0 +1,68 @@
+{# TODO TEST AFFICHAGE DYNAMIQUE #}
+<button class="btn btn-outline-info" id="{{ trip.name }}_{{ trip.id }}">Afficher</button>
+    <script>
+        document.getElementById("{{ trip.name }}_{{ trip.id }}").addEventListener('click', postDetail);
+
+        function postDetail(){
+            let detail = "<div class='alert alert-secondary' role='alert'>";
+            detail += "<div class='row'><div class='col-md-4'>";
+            detail += "<h2>Liste des participants</h2>"
+            {% for inscpt in trip.inscription %}
+            detail += "<p>{{ inscpt.participant.pseudo }}</p>"
+            {% endfor %}
+            detail += "</div><div class='col-md-8'>";
+            detail += "<p>Nom de la sortie : {{ trip.name }} à {{ trip.adress.city.name }}, {{ trip.adress.name }}<p>";
+            detail += "<p>Campus : {{ trip.campus.name }}</p>";
+            detail += "<p>Status : {{ trip.status.frenchName }}<p>";
+            detail += "<p>Date : {{ trip.dateStart|date('d/m/Y H:m') }}<span id='countdown_{{ trip.id }}'></span></p>";
+            detail += "<p>Nombre de place : {{ trip.inscription|length }}/{{ trip.nbMaxRegistration }}<p>";
+
+            detail += "<a href='{{ path('trip_detail_trip', {'id': trip.id}) }}'><button  class='btn btn-success'>Afficher les details</button></a>";
+
+            detail += "</div></div><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+
+            document.getElementById("postDetail").innerHTML = detail;
+
+            let dateStart = new Date('{{ trip.dateStart|date }}');
+            let idCountDown = "countdown_{{ trip.id }}";
+
+            countDown();
+
+            function countDown() {
+                let timeCountDown = (dateStart - Date.now());
+                let countDownText = "";
+                let x = "";
+                if(timeCountDown>0){
+                    countDownText += ", se termine dans ";
+                    timeCountDown = Math.floor(timeCountDown/1000);
+                    x = Math.floor(timeCountDown / (60*60*24));
+                    timeCountDown = timeCountDown % (60*60*24);
+                    if(x != 0){
+                        countDownText += x;
+                        countDownText += " j ";
+                    }
+                    x = Math.floor(timeCountDown / (60*60));
+                    timeCountDown = timeCountDown % (60*60);
+                    if(x != 0){
+                        countDownText += x;
+                        countDownText += " h ";
+                    }
+                    x = Math.floor(timeCountDown / (60));
+                    timeCountDown = timeCountDown % (60);
+                    if(x != 0){
+                        countDownText += x;
+                        countDownText += " m ";
+                    }
+
+                    countDownText += timeCountDown + " s";
+                }else {
+                    countDownText += ", sortie déjà débutée";
+                }
+
+                document.getElementById(idCountDown).innerText = countDownText;
+                setTimeout(countDown, 1000);
+            }
+
+        }
+    </script>
+{# TODO fin #}
