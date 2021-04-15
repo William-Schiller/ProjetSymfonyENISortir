@@ -58,13 +58,6 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         return ceil(count($query->getResult())/$nbLine);
     }
 
-    public function setActive($participantId, $active){
-
-        dump($participantId);
-        dump($active);
-
-        // aller dans mettre a jour le champ active dans la bdd pour le praticpant
-    }
 
         // /**
     //  * @return Participant[] Returns an array of Participant objects
