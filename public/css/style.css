@@ -99,7 +99,6 @@ img {
     background-color: #144a7f;
 }
 
-
 /*** MODIF BUTTON SUCCES ***/
 .btnSuccess{
     font-weight: bold;
@@ -126,4 +125,38 @@ img {
     border-color:#144a7f}
 .btnSuccess:not(:disabled):not(.disabled).active:focus,.btnSuccess:not(:disabled):not(.disabled):active:focus,.show>.btnSuccess.dropdown-toggle:focus{
     box-shadow:0 0 0 .1rem #144a7f
+}
+
+/*** Couleur status ***/
+.colorStatusCreate {
+    font-weight: bold;
+    color: #000000;
+}
+
+.colorStatusActive {
+    font-weight: bold;
+    color: #106408;
+}
+
+.colorStatusClosure {
+    font-weight: bold;
+    color: #8a1d1d;
+}
+
+.colorStatusIn {
+    color: #0f1688;
+}
+
+.Progress {
+    font-weight: bold;
+}
+
+.colorStatusPast {
+    font-weight: bold;
+    color: #030303;
+}
+
+.colorStatusDesactivate {
+    font-weight: bold;
+    color: #8c8080;
 }

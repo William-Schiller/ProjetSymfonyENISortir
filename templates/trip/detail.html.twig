@@ -29,7 +29,7 @@
     <div class="row my-4 justify-content-around">
         <div class="col-md-4">
             <div class="container text-center p-4 form-group form-control">
-                <h2>Liste des participants : {{ trip.inscription|length }}/{{ trip.nbMaxRegistration }}</h2>
+                <h2>Liste des participants {{ trip.inscription|length }}/{{ trip.nbMaxRegistration }}</h2>
                 {% for inscpt in trip.inscription %}
                    <p class="font-weight-bold"><a href="{{ path('profilePaticipant_showParticipant_', {'id': inscpt.participant.id}) }}">{{ inscpt.participant.pseudo }}</a></p>
                 {% endfor %}
