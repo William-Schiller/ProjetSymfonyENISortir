@@ -23,7 +23,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     </head>
 
-    <header  class="d-flex flex-column flex-md-row justify-content-between p-3 px-md-4 bg-body border-bottom shadow-sm">
+    <header  class="d-flex flex-column flex-md-row justify-content-between p-3 px-md-4 bg-body shadow-sm">
         <div class="m-2">
             <a style="float:left" href="{{ path('home') }}"><img src="{{ asset('/img/logo.png') }}" class="rounded logoNav" alt="logo"></a>
         </div>
@@ -35,9 +35,21 @@
                 {%  if app.user %}
                     <a class="p-2" href="{{ url('showUser', {id: app.user.id}) }}">Mon profil</a>
                     <a class="p-2" href="{{ path('trip_list') }}">Sorties</a>
-                    <a class="p-2" href="{{ path('app_logout') }}">Logout</a>
+                    <a class="p-2" href="{{ path('app_logout') }}">Déconnexion</a>
                     {% if app.user.admin %}
-                        <a class="p-2" href="{{ path('admin_listUser') }}">Liste des utilisateurs</a>
+                        <div class="dropdown">
+                            <button class="btn btnSuccess dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Admin
+                            </button>
+                            <div class="dropdown-menu adminLinkNavBar" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{{ path('admin_listUser') }}">Liste des utilisateurs</a>
+
+                                <a class="dropdown-item" href="{{ path('city_create') }}">Gestion des villes</a>
+                                <a class="dropdown-item" href="{{ path('campus_create') }}">Gestion des campus</a>
+
+
+                            </div>
+                        </div>
                     {% endif %}
                 {% else %}
                     <a class="p-2" href="{{ url('app_register') }}">Creer un compte</a>
@@ -66,7 +78,7 @@
     </div>
     </body>
 
-    <footer class="page-footer text-center pt-4 my-md-5 pt-md-5 border-top bgFooter">
+    <footer class="page-footer text-center pt-4 my-md-5 pt-md-5 bgFooter">
         <div class="styleFooter">
             SuperTeam (Seven) LULU & MAMA & WIWI
         </div>

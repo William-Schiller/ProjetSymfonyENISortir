@@ -20,28 +20,29 @@
 
         function chargeGif(){
             let div = document.createElement("div");
-            let img = "<img src='{{ asset('img/gif/giphyConfetti.gif') }}'>";
-            let img2 = "<img src='{{ asset('img/gif/giphyConfetti2.gif') }}'>";
-
-            let rand = parseInt(Math.random()*4);
-            if(rand <= 2){
+            let img = "<img src='{{ asset('img/gif/giphyConfetti6.gif') }}' style='width: 700px'>";
+            {#let img2 = "<img src='{{ asset('img/gif/giphyConfetti2.gif') }}'>";#}
+            // let rand = parseInt(Math.random()*4);
+            // if(rand <= 2){
                 div.innerHTML = img;
-            }else {
-                div.innerHTML = img2;
-            }
+            // }else {
+            //     div.innerHTML = img2;
+            // }
 
-            var xRand = parseInt(Math.random()*100);
-            var yRand = parseInt(Math.random()*100);
-            div.setAttribute("style", `position : absolute; top : ${xRand}%; left : ${yRand}%;`);
+            // var xRand = parseInt(Math.random()*100);
+            // var yRand = parseInt(Math.random()*100);
+            // div.setAttribute("style", `position : absolute; top : ${xRand}%; left : ${yRand}%;`);
+            div.setAttribute("style", `position : absolute; top : 25%; left : 25%;`);
+
             let theID = "theID" + nb;
             div.setAttribute("id", theID);
 
             document.getElementById("gifConfetti").insertAdjacentElement("afterbegin", div);
-            if(rand <= 2){
-                setTimeout(deleteGif, 1000);
-            }else {
+            // if(rand <= 2){
                 setTimeout(deleteGif, 3000);
-            }
+            // }else {
+            //     setTimeout(deleteGif, 3000);
+            // }
 
             function deleteGif() {
                 let toDelete = document.getElementById(theID);
