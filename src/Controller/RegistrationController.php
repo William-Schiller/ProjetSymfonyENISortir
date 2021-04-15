@@ -41,6 +41,11 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            if($user->setActive(false)){
+                return $this->render('registration/register.html.twig', [
+                    'registrationForm' => $form->createView(),
+                ]);
+            }
             // do anything else you need here, like send an email
 
             return $guardHandler->authenticateUserAndHandleSuccess(

@@ -77,6 +77,7 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
         if(!$user->getActive()){
             throw new CustomUserMessageAuthenticationException('Compte en attente d\'activation.');
         }
+
         return $user;
     }
 
@@ -101,6 +102,7 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
+
 
          return new RedirectResponse($this->urlGenerator->generate('home'));
     }
