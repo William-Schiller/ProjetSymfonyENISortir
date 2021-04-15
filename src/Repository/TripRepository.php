@@ -75,7 +75,8 @@ class TripRepository extends ServiceEntityRepository
         $query = $this
             ->createQueryBuilder('trips')
             ->select('camp', 'trips')
-            ->join('trips.campus', 'camp');
+            ->join('trips.campus', 'camp')
+            ->join('trips.inscription', 'reg');
 
 
         //ChoicesType si l'utilisateur est inscrit
@@ -88,13 +89,32 @@ class TripRepository extends ServiceEntityRepository
 
         //aller récupérer la list des id de toutes les sorties auxquelles le participant est inscrit
         //utiliser la liste dans un not in dans la requête (NOT IN)
+        /*if ($search->insubscribedTo) {
+            $query = $query
+                ->join('trips.inscription', 'reg')
+                ->join('reg.participant', 'regBis')
+                ->andWhere($query->expr()->notIn( ':regBis', ':idCurrentUser'))
+                ->setParameter('idCurrentUser', $idCurrentUser);
+        }*/
         if ($search->insubscribedTo) {
             $query = $query
-                ->join('trips.inscription', 'idInscription')
-                ->andWhere('idInscription.participant = :idCurrentUser')
-                ->andWhere('idCurrentUser NOT IN  (:inscription)')
-                ->setParameter('insubscribedTo', $search->insubscribedTo);
-        }
+                ->join('reg.participant', 'regBis')
+                ->andWhere($query->expr()->notIn('regBis.id', ':idCurrentUser'))
+                ->setParameter('idCurrentUser', $idCurrentUser,$search->insubscribedTo);
+}
+
+        /*if ($search->insubscribedTo) {
+           $queryBis = $query
+               ->join('trips.inscription', 'inscpt')
+               ->andWhere('inscpt.participant = :idCurrentUser')
+               ->setParameter('idCurrentUser', $idCurrentUser);
+           $tripsSuscribed = $queryBis->getQuery()->getResult();
+           $tripsAll = $query->getQuery()->getResult();
+           foreach($tripsSuscribed as $tripSus){
+              unset($tripsAll[array_search($tripSus, $tripsAll)]);
+           }
+           return $tripsAll;
+       }*/
 
         if (!empty($search->search)) {
             $query = $query

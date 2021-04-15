@@ -157,7 +157,7 @@ class AppFixtures extends Fixture
         $participant->setPhoneNumber('0843819234');
         $participant->setAdmin(false);
         $participant->setLastname('Momo');
-        $participant->setActive(false);
+        $participant->setActive(true);
         $participant->setCampus($faker->randomElement($allCampus));
         $participant->setName('hehehe');
         $manager->persist($participant);
