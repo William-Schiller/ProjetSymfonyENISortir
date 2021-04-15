@@ -2,32 +2,25 @@
 
 namespace App\Controller;
 
-use App\Entity\Adress;
-use App\Entity\Participant;
-use App\Form\AddressType;
+use App\Entity\City;
 use App\Form\CityType;
-use App\Form\UpdateManagerCityType;
-use App\Form\UpdateManageTripType;
-use App\Repository\CityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Proxies\__CG__\App\Entity\City;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class AddressController
  * @package App\Controller
  *
- * @Route("ville", name="city_")
+ * @Route("admin/ville", name="city_")
  */
 class CityController extends AbstractController
 {
 
     /**
-     * @Route("/ajouter", name="list")
+     * @Route("", name="list")
      */
     public function list(EntityManagerInterface $entityManager,Request $request, PaginatorInterface $paginator)
     {
@@ -39,45 +32,50 @@ class CityController extends AbstractController
                 10
             );
 
+
         return $this->render('city/createCity.html.twig', [
             'cities'=>$cities,
         ]);
+
+
     }
 
     /**
      * @Route("/ajouter", name="create")
      */
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function create(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator)
     {
-        $createCity = "";
-        if (!empty($request->get('createCity'))) {
-            $createCity = $request->get('createCity');
-        }
+        $cityList = $em->getRepository('App:City')->findAll();
 
+        $cities = $paginator
+            ->paginate($cityList, $request->query
+                ->getInt('page',1),
+                10
+            );
         $city = new city();
-        $form = $this->createForm(CityType::class, $city);
-        $form->handleRequest($request);
+        $cityForm = $this->createForm(CityType::class, $city);
+        $cityForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($city);
-            $entityManager->flush();
+        if ($cityForm->isSubmitted() && $cityForm->isValid()) {
+            $em->persist($city);
+            $em->flush();
 
-            $this->addFlash('success', 'le campus a bien été enregistré'); //a afficher
-
-            if (!empty($createCity)) {
+            if (!empty($city)) {
                 return $this->redirectToRoute('city_create');
             }
+            $this->addFlash('success', 'la ville a bien été enregistré');
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('city_create');
         }
 
-        return $this->render('city/createCity.html.twig', ['cityForm' => $form->createView(), 'createCity' => $createCity]);
+        return $this->render('city/createCity.html.twig',
+            ['cityForm'=>$cityForm->createView(), 'cities'=>$cities]);
     }
 
     /**
      * @Route("/modifier/{id}" , requirements={"id":"\d+"}, name="modify")
      */
-    public function modify(Request $request,CityRepository $cityRepository, EntityManagerInterface $entityManager, $id)
+    public function modify(Request $request, $id)
     {
         $city = $this->getDoctrine()
             ->getRepository('App:City')
