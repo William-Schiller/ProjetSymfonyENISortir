@@ -20,28 +20,7 @@ class CityController extends AbstractController
 {
 
     /**
-     * @Route("", name="list")
-     */
-    public function list(EntityManagerInterface $entityManager,Request $request, PaginatorInterface $paginator)
-    {
-        $city = $entityManager->getRepository('App:City')->findAll();
-
-        $cities = $paginator
-            ->paginate($city, $request->query
-                ->getInt('page',1),
-                10
-            );
-
-
-        return $this->render('city/createCity.html.twig', [
-            'cities'=>$cities,
-        ]);
-
-
-    }
-
-    /**
-     * @Route("/ajouter", name="create")
+     * @Route("", name="create")
      */
     public function create(Request $request, EntityManagerInterface $em, PaginatorInterface $paginator)
     {
