@@ -97,12 +97,12 @@ class TripManageController extends AbstractController
             $trip->setStatus($statusRepository->findOneBy(['name' => 'Create']));
             $trip->setPromoter($this->getUser());
 
-            $inscription = new Inscription();
-            $inscription->setParticipant($this->getUser());
-            $inscription->setTrip($trip);
+//            $inscription = new Inscription();
+//            $inscription->setParticipant($this->getUser());
+//            $inscription->setTrip($trip);
 
             $entityManager->persist($trip);
-            $entityManager->persist($inscription);
+//            $entityManager->persist($inscription);
             $entityManager->flush();
 
             if(!empty($request->get('idPublish'))){
@@ -135,6 +135,14 @@ class TripManageController extends AbstractController
         $status = $statusRepository->findOneBy(['name' => 'Active']);
         $trip->setStatus($status);
 
+        if($this->getUser() == $trip->getPromoter()){
+            $inscription = new Inscription();
+            $inscription->setParticipant($this->getUser());
+            $inscription->setTrip($trip);
+
+            $entityManager->persist($inscription);
+        }
+
         $entityManager->persist($trip);
         $entityManager->flush();
 
@@ -151,7 +159,7 @@ class TripManageController extends AbstractController
 
         $trip = $tripRepository->findOneBy(['id' => $id]);
 
-        if(is_null($trip) || $trip->getPromoter() != $this->getUser() || $trip->getStatus()->getName() != 'Create'){
+        if(is_null($trip) || $trip->getPromoter() != $this->getUser() || $trip->getStatus()->getName() == 'Create'){
             throw $this->createNotFoundException();
         }
 

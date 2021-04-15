@@ -3,16 +3,18 @@
 {% block title %}Gestion des sorties{% endblock %}
 
 {% block body %}
-<div class="row justify-content-end">
-    <a href="{{ url('tripManage_create') }}" class="btn btn-success m-3">Créer une sortie</a>
+<div class="row justify-content-between">
+    <div class="m-3">
+        <a class="pt-3" href="javascript:window.history.go(-1)"><button class="btn btn-outline-primary">Retour</button></a>
+    </div>
+    <div class="m-3">
+        <a href="{{ url('tripManage_create') }}" class="btn btn-success">Créer une sortie</a>
+    </div>
 </div>
 
     <div class="text-center mb-5">
-        <a class="pt-3" href="javascript:window.history.go(-1)"><button class="btn btn-outline-primary">Retour</button></a>
         <h1>Page de gestion des sorties</h1>
-
             <div id="postDetail"></div>
-
     </div>
 
     <table class="table">

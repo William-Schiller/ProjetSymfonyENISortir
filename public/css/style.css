@@ -1,5 +1,11 @@
+body {
+    background: url("../img/bg.png") no-repeat ;
+    background-size: cover;
+}
+
 header {
     margin-bottom: 0px;
+    background-color: rgba(255,255,255,0.9);
     /*height: 10vh;*/
 
 }
@@ -8,10 +14,25 @@ header {
     width: auto;
     margin: 0px;
     padding-bottom: 10px;
-    background: url("../img/bg.png") no-repeat ;
-    background-size: cover;
     /*height: 80vh;*/
 
+}
+
+.bgNavBar {
+    background-color: #144a7f;
+    color: #b1c13e;
+    border-radius: 20px;
+    height: 100%;
+}
+
+.bgNavBar a{
+    color: #b1c13e;
+    font-weight: bold;
+}
+
+.bgNavBar a:hover{
+    color: #fff;
+    text-decoration: none;
 }
 
 .bgContainer {
@@ -46,7 +67,6 @@ header {
 footer {
     position: relative;
     bottom: 0;
-    height: 10vh;
     width: auto;
 
 }
@@ -55,4 +75,18 @@ img {
     max-width: 100%;
     height: auto;
     display: block;
+}
+
+.bgFooter{
+    background-color: rgba(255,255,255,0.9);
+}
+
+.styleFooter {
+    font-weight: bold;
+    animation: Test 1s infinite;
+}
+@keyframes Test{
+    0%{opacity: 1;}
+
+    100%{opacity: 0;}
 }
