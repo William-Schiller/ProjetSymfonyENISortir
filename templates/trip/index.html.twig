@@ -6,9 +6,11 @@
 {% block title %}Liste des sorties{% endblock %}
 
 {% block body %}
-    <div class="row my-4 justify-content-around">
-        <h1>Liste des sorties</h1>
-        <div class="col-md-6 text-md-right">
+    <div class="row my-4 justify-content-between">
+        <div class="m-3 ml-5">
+            <h1>Liste des sorties</h1>
+        </div>
+        <div class="text-md-right m-3 mr-5">
             <a href="{{ url('tripManage_create') }}" class="btn btn-success w-20">Créer une sortie</a>
             <a href="{{ url('tripManage_index') }}" class="btn btn-success w-20">Gestion des sorties</a>
         </div>
