@@ -37,9 +37,9 @@
                         </thead>
                         <tbody>
                         {% for trip in trips %}
-                            <tr>
+                            <tr class="colorStatus{{ trip.status.name }}">
                                 <td>{{ trip.campus.name }}</td>
-                                <td>{{ trip.name }} ({{ trip.status.frenchName }})</td>
+                                <td>{{ trip.name }}</td>
                                 <td>{{ trip.dateStart|date("d/m/Y") }}</td>
                                 <td>
                                     {% include 'trip/detailMiniWindow.html.twig' with {trip: trip} only %} {# JS mini window #}
@@ -77,9 +77,54 @@
         </div>
     </div>
 
+    <script>
+        // Décocher la case 'je suis inscris si l'on coche la case je ne suis pas inscris' ... et vice versa
+        /* Avec l'inspecteur du nav retrouver les id des deux elements :
+            id checkbox où je suis inscris : 'subscribedTo'
+            id checkbox où je ne suis pas inscris : 'insubscribedTo'
+         */
 
+        //recuperer les elements html inputs dans des variables grace aux id
+        let inputSubscribedTo = document.getElementById('subscribedTo');
+        let inputInsubscribedTo = document.getElementById('insubscribedTo');
 
+        //Ajouter des évenements aux inputs pour déclencher une fonction quand ils seront selectionner
+        inputSubscribedTo.addEventListener('click', controlCheckInsubscribedInput);
+        inputInsubscribedTo.addEventListener('click', controlCheckSubscribedInput);
 
+        function controlCheckInsubscribedInput(){
+            if(inputSubscribedTo.checked){ //si le bouton 'où je suis inscris' est checké
+                if(inputInsubscribedTo.checked){ //si le bouton 'où je ne suis pas inscris' est checké
+                    inputInsubscribedTo.checked = false; // déchecker la box
+                }
+            }
+        }
+
+        function controlCheckSubscribedInput(){
+            if(inputInsubscribedTo.checked){
+                if(inputSubscribedTo.checked){
+                    inputSubscribedTo.checked = false; // déchecker la box
+                }
+
+                /*
+                Petit bonus ouvre une page d'alerte si le boutton 'où je ne suis pas inscris' est coché
+                 */
+                // if(inputInsubscribedTo.checked){
+                //     alert("Oulahhhhh malheureux la fonctionnalité ne marche pas!");
+                // }
+                /*
+                Petit bonus 2 se desélectionne apres 0.2 secondes
+                 */
+                if(inputInsubscribedTo.checked){
+                    setTimeout(hide , 200); // enclenche la fonction hide() dans 200 millisecondes
+
+                    function hide(){
+                        inputInsubscribedTo.checked = false; // déchecker la box
+                    }
+                }
+            }
+        }
+    </script>
 
 
 {% endblock %}

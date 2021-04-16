@@ -56,12 +56,15 @@ class UpdateTripCommand extends Command
 //        $dateNowMoreOneMonth = new \DateTime('now');
 //        $dateNowMoreOneMonthTimeStamp = $dateNowMoreOneMonth->getTimestamp() + (60*60*24*31);
 //        $dateNowMoreOneMonth->setTimestamp($dateNowMoreOneMonthTimeStamp);
-        $dateNowMoreOneMonth = new DateTime('now');
-        $dateNowMoreOneMonth->modify('+1 month');
+//        $dateNowMoreOneMonth = new DateTime('now');
+//        $dateNowMoreOneMonth->modify('+1 month');
 
         foreach($trips as $trip){
-            //Desactivate General ---> NE FONCtIONNE PAS
-            if($trip->getDateStart() > $dateNowMoreOneMonth){
+
+            //Desactivate General
+            $dateStartMoreOneMonth = $trip->getDateStart();
+            $dateStartMoreOneMonth->modify('+1 month');
+            if($dateStartMoreOneMonth < new \DateTime('now')){
                 $trip->setStatus($statusDesactivate);
                 $this->entityManager->persist($trip);
                 $io->success("Trip : [" . $trip->getName() . "] is desactivate too old");
@@ -107,7 +110,6 @@ class UpdateTripCommand extends Command
                     $io->success("Trip : [" . $trip->getName() . "] is Past");
                 }
             }
-
 
 //            $trip->setStatus($statusActive);
 //            $this->entityManager->persist($trip);

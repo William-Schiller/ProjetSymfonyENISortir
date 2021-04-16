@@ -43,10 +43,18 @@ class AdminController extends AbstractController
         $userRepo = $this->getDoctrine()->getRepository(Participant::class);
         $user = $userRepo->findOneBy(['id'=>$id]);
 
+        $rolesAdmin = ['ROLE_ADMIN', 'ROLE_USER'];
+        $rolesUser = ['ROLE_USER'];
         if($active == 'activate'){
             $user->setActive(1);
+            if($user->getAdmin() == 1){
+                $user->setRoles($rolesAdmin);
+            } else { //ajout
+                $user->setRoles($rolesUser);
+            } //ajout
         } else if($active == 'deactivate') {
             $user->setActive(0);
+            $user->setRoles([]);
         }
 
         $em->persist($user);
